@@ -1,0 +1,19 @@
+{
+  "type": "calamari:replace_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:gameplay/hero_of_the_village/fisherman_gift"
+    },
+    {
+      "chance": 0.5,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "calamari:calamari",
+  "max_count": 1,
+  "min_count": 1,
+  "removed_item": [
+    "minecraft:cod"
+  ]
+}

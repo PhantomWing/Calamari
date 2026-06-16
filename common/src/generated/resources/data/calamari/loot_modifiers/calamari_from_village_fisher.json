@@ -1,0 +1,19 @@
+{
+  "type": "calamari:replace_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/village/village_fisher"
+    },
+    {
+      "chance": 0.5,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "calamari:calamari",
+  "max_count": 3,
+  "min_count": 1,
+  "removed_item": [
+    "minecraft:cod"
+  ]
+}

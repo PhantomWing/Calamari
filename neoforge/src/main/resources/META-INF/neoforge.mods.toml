@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+issueTrackerURL = "https://github.com/PhantomWing/Calamari/issues"
+license = "MIT License"
+
+[[mods]]
+modId = "calamari"
+version = "${version}"
+displayName = "Calamari"
+displayURL = "https://github.com/PhantomWing/Calamari"
+logoFile = "icon.png"
+authors = "PhantomWing"
+description = '''
+Squids and glow squids drop calamari, a vanilla-friendly seafood you can cook, trade, and eat.
+'''
+
+[[dependencies.calamari]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1.218,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.calamari]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,1.21.2)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.calamari]]
+modId = "architectury"
+type = "required"
+versionRange = "[13.0.8,)"
+ordering = "AFTER"
+side = "BOTH"

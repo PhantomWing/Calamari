@@ -1,0 +1,19 @@
+{
+  "type": "calamari:replace_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/buried_treasure"
+    },
+    {
+      "chance": 0.5,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "calamari:cooked_calamari",
+  "max_count": 4,
+  "min_count": 2,
+  "removed_item": [
+    "minecraft:cooked_cod"
+  ]
+}

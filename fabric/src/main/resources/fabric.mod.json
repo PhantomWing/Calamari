@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "calamari",
+  "version": "${version}",
+  "name": "Calamari",
+  "description": "Squids and glow squids drop calamari, a vanilla-friendly seafood you can cook, trade, and eat.",
+  "authors": [
+    "PhantomWing"
+  ],
+  "contact": {
+    "homepage": "https://github.com/PhantomWing/Calamari",
+    "sources": "https://github.com/PhantomWing/Calamari",
+    "issues": "https://github.com/PhantomWing/Calamari/issues"
+  },
+  "license": "MIT License",
+  "icon": "assets/calamari/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.phantomwing.calamari.fabric.CalamariFabric"
+    ]
+  },
+  "mixins": [
+    "calamari.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "fabric-api": "*",
+    "minecraft": ">=1.21.1 <1.21.2",
+    "architectury": ">=13.0.8",
+    "cloth-config": "*"
+  }
+}
