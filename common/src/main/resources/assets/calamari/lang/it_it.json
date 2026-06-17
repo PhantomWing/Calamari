@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Calamaro crudo",
+  "item.calamari.cooked_calamari": "Calamaro cotto",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "I calamari rilasciano calamaro",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Calamaro nel bottino generato",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Abilita gli scambi dei villici"
+}

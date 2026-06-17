@@ -1,6 +1,7 @@
 package com.phantomwing.calamari;
 
 import com.phantomwing.calamari.item.ModItems;
+import com.phantomwing.calamari.loot.CalamariLootAdditions;
 import com.phantomwing.calamari.loot.SquidLootInjection;
 
 /**
@@ -23,5 +24,8 @@ public final class CalamariCommon {
         // Squid / glow-squid calamari drops (gated on config, applied via the
         // cross-platform Architectury LootEvent).
         SquidLootInjection.register();
+
+        // Extra calamari in guardian/elder-guardian drops and cat morning gifts.
+        CalamariLootAdditions.register();
     }
 }

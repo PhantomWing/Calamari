@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Сырой кальмар",
+  "item.calamari.cooked_calamari": "Жареный кальмар",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "Из спрутов выпадает кальмар",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Кальмар в генерируемой добыче",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Включить торговлю с крестьянами"
+}

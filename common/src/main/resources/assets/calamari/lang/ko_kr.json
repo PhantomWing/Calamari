@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "생 오징어",
+  "item.calamari.cooked_calamari": "조리된 칼라마리",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "오징어가 칼라마리 드롭",
+  "text.autoconfig.calamari.option.generate_structure_loot": "생성된 전리품에 칼라마리",
+  "text.autoconfig.calamari.option.enable_villager_trades": "주민 거래 활성화"
+}

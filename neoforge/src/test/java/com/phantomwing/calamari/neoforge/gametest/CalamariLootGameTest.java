@@ -22,7 +22,8 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 /**
- * Game tests for the structure-loot replacement (the NeoForge GLM path). Run
+ * Game tests for the calamari loot integration — both the GLM replacements
+ * (cod -> calamari) and the LootEvent additions (guardian drops, cat gift). Run
  * headless with {@code ./gradlew :neoforge:runGameTest}. Uses a tiny empty
  * structure ({@code calamari:empty}) since this NeoForge version has no
  * {@code @EmptyTemplate} helper.
@@ -47,6 +48,45 @@ public class CalamariLootGameTest {
     @GameTest(template = "empty")
     public static void buriedTreasureYieldsCookedCalamari(GameTestHelper helper) {
         assertTableYields(helper, "chests/buried_treasure", LootContextParamSets.CHEST, ModItems.COOKED_CALAMARI.get());
+    }
+
+    /** Cat morning gift: bonus raw calamari pool (LootEvent add). */
+    @GameTest(template = "empty")
+    public static void catMorningGiftYieldsCalamari(GameTestHelper helper) {
+        assertTableYields(helper, "gameplay/cat_morning_gift", LootContextParamSets.GIFT, ModItems.CALAMARI.get());
+    }
+
+    /** Guardian drop: bonus raw calamari pool (LootEvent add). */
+    @GameTest(template = "empty")
+    public static void guardianDropsCalamari(GameTestHelper helper) {
+        assertEntityTableYields(helper, EntityType.GUARDIAN, ModItems.CALAMARI.get());
+    }
+
+    /** Rolls an entity's death loot table (ENTITY param set) and asserts {@code expected} appears. */
+    private static void assertEntityTableYields(GameTestHelper helper, EntityType<?> type, Item expected) {
+        ServerLevel level = helper.getLevel();
+        Entity entity = helper.spawn(type, BlockPos.ZERO);
+        LootTable table = level.getServer().reloadableRegistries().getLootTable(type.getDefaultLootTable());
+        LootParams params = new LootParams.Builder(level)
+                .withParameter(LootContextParams.THIS_ENTITY, entity)
+                .withParameter(LootContextParams.ORIGIN, helper.absolutePos(BlockPos.ZERO).getCenter())
+                .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic())
+                .create(LootContextParamSets.ENTITY);
+
+        int found = 0;
+        for (int i = 0; i < 400; i++) {
+            for (ItemStack stack : table.getRandomItems(params)) {
+                if (stack.is(expected)) {
+                    found += stack.getCount();
+                }
+            }
+        }
+
+        if (found <= 0) {
+            helper.fail("Expected " + type + " loot to yield " + expected + " over 400 rolls, got none");
+        } else {
+            helper.succeed();
+        }
     }
 
     /**

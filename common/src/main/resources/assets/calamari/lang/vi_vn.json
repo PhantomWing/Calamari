@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Thịt mực sống",
+  "item.calamari.cooked_calamari": "Thịt mực chín",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "Cho phép mực rớt thịt mực",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Mực trong vật phẩm tạo ra",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Cho phép vật phẩm của mod có trong giao dịch với dân làng"
+}

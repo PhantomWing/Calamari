@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Rohe Calamari",
+  "item.calamari.cooked_calamari": "Gebratene Calamari",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "Calamari aus Tintenfischen",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Calamari in generierter Beute",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Dorfbewohnerhandel ermöglichen"
+}

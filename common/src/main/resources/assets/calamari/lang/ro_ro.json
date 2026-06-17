@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Calamar crud",
+  "item.calamari.cooked_calamari": "Calamar gătit",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "Calmarii lasă calamar",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Calamar în prada generată",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Activează schimburile sătenilor"
+}

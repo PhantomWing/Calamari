@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "生鱿鱼",
+  "item.calamari.cooked_calamari": "熟鱿鱼",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "鱿鱼掉落物品",
+  "text.autoconfig.calamari.option.generate_structure_loot": "战利品中生成鱿鱼",
+  "text.autoconfig.calamari.option.enable_villager_trades": "启用村民交易"
+}

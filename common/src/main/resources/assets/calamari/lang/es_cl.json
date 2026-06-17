@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Calamar Crudo",
+  "item.calamari.cooked_calamari": "Calamar Cocido",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "Los calamares sueltan calamar",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Calamar en el botín generado",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Activar intercambios con aldeanos"
+}

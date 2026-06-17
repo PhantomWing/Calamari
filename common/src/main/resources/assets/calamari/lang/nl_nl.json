@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Rauwe inktvis",
+  "item.calamari.cooked_calamari": "Gekookte inktvis",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "Voedsel van inktvis",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Inktvis in gegenereerde buit",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Handelen met dorpelingen inschakelen"
+}

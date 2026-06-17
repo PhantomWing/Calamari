@@ -33,12 +33,15 @@ public class Configuration {
 
         SQUIDS_DROP_CALAMARI = builder
                 .comment("Should squids and glow squids drop a Calamari item?")
+                .translation("text.autoconfig.calamari.option.squids_drop_calamari")
                 .define(SQUIDS_DROP_CALAMARI_ID, true);
         GENERATE_STRUCTURE_LOOT = builder
-                .comment("Replace some generated loot with calamari (raw cod -> raw calamari in village fisher chests and Hero of the Village fisherman gifts).")
+                .comment("Add or replace calamari in generated loot: village fisher chests, buried treasure, guardian/elder guardian drops, and Hero of the Village & cat morning gifts.")
+                .translation("text.autoconfig.calamari.option.generate_structure_loot")
                 .define(GENERATE_STRUCTURE_LOOT_ID, true);
         ENABLE_VILLAGER_TRADES = builder
                 .comment("Enable the Fisherman villager calamari trades.")
+                .translation("text.autoconfig.calamari.option.enable_villager_trades")
                 .define(ENABLE_VILLAGER_TRADES_ID, true);
 
         COMMON_CONFIG = builder.build();

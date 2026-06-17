@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Шикі кальмар еті",
+  "item.calamari.cooked_calamari": "Пісірілген кальмар еті",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "Кальмар еті сегізаяқтан түседі",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Жасалған олжадағы кальмар еті",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Шаруамен сауданы қосу"
+}

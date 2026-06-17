@@ -1,0 +1,8 @@
+{
+  "item.calamari.calamari": "Сирий мацак кальмара",
+  "item.calamari.cooked_calamari": "Смажений мацак кальмара",
+  "text.autoconfig.calamari.title": "Calamari",
+  "text.autoconfig.calamari.option.squids_drop_calamari": "Мацаки випадають з кальмарів",
+  "text.autoconfig.calamari.option.generate_structure_loot": "Кальмар у згенерованій здобичі",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Увімкнути торгівлю з селянами"
+}

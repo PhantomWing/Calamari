@@ -8,7 +8,8 @@ glow squids drop **Calamari**, a seafood you can cook, trade, and eat.
 - **Calamari** (raw) and **Cooked Calamari** food items.
 - Squids and glow squids drop 1–2 calamari (toggleable).
 - Cook calamari in a furnace, smoker, or over a campfire.
-- Loot replacement (toggleable, extensible spec): raw cod becomes raw calamari with a chance, in village fisher chests (1–3) and Hero of the Village fisherman gifts (1).
+- Loot integration (toggleable, extensible spec): raw cod → raw calamari and cooked cod → cooked calamari in village fisher chests, buried treasure, and Hero of the Village fisherman gifts; bonus calamari from guardian/elder guardian drops and cat morning gifts.
+- Raw calamari works as cat/ocelot food, like raw cod and salmon.
 - Fisherman villager trades (toggleable): buys raw calamari, sells cooked calamari.
 - Cross-platform: one Architectury codebase ships both NeoForge and Fabric jars.
 
