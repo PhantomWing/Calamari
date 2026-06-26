@@ -33,6 +33,10 @@ public final class CalamariLootAdditions {
                 addCalamariPool(context, 1, 1, 0.25f);
             } else if (EntityType.ELDER_GUARDIAN.getDefaultLootTable().equals(key)) {
                 addCalamariPool(context, 1, 2, 1.0f);
+            } else if (EntityType.DOLPHIN.getDefaultLootTable().equals(key)) {
+                // Dolphins actually do hunt cephalopods, so a small calamari drop fits
+                // alongside the vanilla cod drop.
+                addCalamariPool(context, 1, 1, 0.25f);
             } else if (BuiltInLootTables.CAT_MORNING_GIFT.equals(key)) {
                 addCalamariPool(context, 1, 1, 0.25f);
             }

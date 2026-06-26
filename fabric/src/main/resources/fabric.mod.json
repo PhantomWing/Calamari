@@ -24,10 +24,10 @@
     "calamari.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.14",
-    "fabric-api": "*",
-    "minecraft": ">=1.21.1 <1.21.2",
-    "architectury": ">=13.0.8",
-    "cloth-config": "*"
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "minecraft": "${minecraft_version_range}",
+    "architectury": ">=${architectury_version}",
+    "cloth-config": ">=${cloth_config_version}"
   }
 }

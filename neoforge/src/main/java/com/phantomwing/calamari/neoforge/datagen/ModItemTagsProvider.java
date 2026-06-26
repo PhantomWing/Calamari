@@ -39,6 +39,10 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         tag(ItemTags.CAT_FOOD).add(ModItems.CALAMARI.get());
         tag(ItemTags.OCELOT_FOOD).add(ModItems.CALAMARI.get());
 
+        // Wolves accept raw and cooked calamari as food (the vanilla wolf_food tag
+        // contains both raw and cooked variants of fish).
+        tag(ItemTags.WOLF_FOOD).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
+
         // Conventional seafood food tags for cross-mod integration.
         tag(C_FOODS_RAW_FISH).add(ModItems.CALAMARI.get());
         tag(C_FOODS_COOKED_FISH).add(ModItems.COOKED_CALAMARI.get());

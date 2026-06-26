@@ -16,12 +16,6 @@ public final class CommonConfig {
     private CommonConfig() {
     }
 
-    /** Gate for the squid / glow-squid calamari drop. */
-    @ExpectPlatform
-    public static boolean squidsDropCalamari() {
-        throw new AssertionError("@ExpectPlatform stub – replaced per loader at build time");
-    }
-
     /** Gate for replacing items in generated structure/chest loot with calamari. */
     @ExpectPlatform
     public static boolean generateStructureLoot() {

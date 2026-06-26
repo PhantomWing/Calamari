@@ -3,7 +3,6 @@
   "item.calamari.cooked_calamari": "Cooked Calamari",
 
   "text.autoconfig.calamari.title": "Calamari Config",
-  "text.autoconfig.calamari.option.squids_drop_calamari": "Squids Drop Calamari",
   "text.autoconfig.calamari.option.generate_structure_loot": "Calamari in Generated Loot",
   "text.autoconfig.calamari.option.enable_villager_trades": "Enable Villager Trades"
 }

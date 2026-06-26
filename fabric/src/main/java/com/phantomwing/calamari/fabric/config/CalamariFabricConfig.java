@@ -18,9 +18,6 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
  */
 @Config(name = Calamari.MOD_ID)
 public class CalamariFabricConfig implements ConfigData {
-    public static final String SQUIDS_DROP_CALAMARI_ID = "squids_drop_calamari";
-    public boolean squids_drop_calamari = true;
-
     public static final String GENERATE_STRUCTURE_LOOT_ID = "generate_structure_loot";
     public boolean generate_structure_loot = true;
 
@@ -44,7 +41,6 @@ public class CalamariFabricConfig implements ConfigData {
     public static boolean getBooleanConfigurationValue(String id) {
         CalamariFabricConfig config = get();
         return switch (id) {
-            case SQUIDS_DROP_CALAMARI_ID -> config.squids_drop_calamari;
             case GENERATE_STRUCTURE_LOOT_ID -> config.generate_structure_loot;
             case ENABLE_VILLAGER_TRADES_ID -> config.enable_villager_trades;
             default -> throw new Error("Invalid setting ID: " + id);

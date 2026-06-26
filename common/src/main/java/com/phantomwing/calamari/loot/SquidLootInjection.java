@@ -1,7 +1,6 @@
 package com.phantomwing.calamari.loot;
 
 import com.phantomwing.calamari.item.ModItems;
-import com.phantomwing.calamari.platform.CommonConfig;
 import dev.architectury.event.events.common.LootEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -16,10 +15,8 @@ import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
  * {@code LootTableEvents.MODIFY}; Architectury's {@link LootEvent#MODIFY_LOOT_TABLE}
  * unifies both into this single implementation.
  *
- * <p>The {@link CommonConfig#squidsDropCalamari()} gate is evaluated at loot-table
- * load time (datapack load / {@code /reload}), so toggling the config and
- * reloading takes effect without a restart. Squid and glow squid each gain a
- * 1–2 calamari drop.</p>
+ * <p>This is the core premise of the mod, so it has no config toggle — squid and
+ * glow squid always gain a 1–2 calamari drop.</p>
  */
 public final class SquidLootInjection {
     private SquidLootInjection() {
@@ -27,7 +24,7 @@ public final class SquidLootInjection {
 
     public static void register() {
         LootEvent.MODIFY_LOOT_TABLE.register((key, context, builtin) -> {
-            if (!builtin || !CommonConfig.squidsDropCalamari()) {
+            if (!builtin) {
                 return;
             }
 

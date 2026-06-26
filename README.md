@@ -15,12 +15,11 @@ glow squids drop **Calamari**, a seafood you can cook, trade, and eat.
 
 ## Configuration
 
-Three options, identical on both loaders (NeoForge: `config/calamari-common.toml`;
+Two options, identical on both loaders (NeoForge: `config/calamari-common.toml`;
 Fabric: `config/calamari.json`, with an in-game Cloth Config / Mod Menu screen):
 
 | Option | Default | Effect |
 | --- | --- | --- |
-| `squids_drop_calamari` | `true` | Squids / glow squids drop calamari |
 | `generate_structure_loot` | `true` | Replace some chest loot with calamari (e.g. raw cod → raw calamari in village fisher chests) |
 | `enable_villager_trades` | `true` | Fisherman calamari trades |
 

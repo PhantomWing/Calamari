@@ -1,8 +1,7 @@
 {
-  "item.calamari.calamari": "Сырой кальмар",
-  "item.calamari.cooked_calamari": "Жареный кальмар",
+  "item.calamari.calamari": "Ð¡Ñ‹Ñ€Ð¾Ð¹ ÐºÐ°Ð»ÑŒÐ¼Ð°Ñ€",
+  "item.calamari.cooked_calamari": "Ð–Ð°Ñ€ÐµÐ½Ñ‹Ð¹ ÐºÐ°Ð»ÑŒÐ¼Ð°Ñ€",
   "text.autoconfig.calamari.title": "Calamari",
-  "text.autoconfig.calamari.option.squids_drop_calamari": "Из спрутов выпадает кальмар",
-  "text.autoconfig.calamari.option.generate_structure_loot": "Кальмар в генерируемой добыче",
-  "text.autoconfig.calamari.option.enable_villager_trades": "Включить торговлю с крестьянами"
+  "text.autoconfig.calamari.option.generate_structure_loot": "ÐšÐ°Ð»ÑŒÐ¼Ð°Ñ€ Ð² Ð³ÐµÐ½ÐµÑ€Ð¸Ñ€ÑƒÐµÐ¼Ð¾Ð¹ Ð´Ð¾Ð±Ñ‹Ñ‡Ðµ",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Ð’ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒ Ñ‚Ð¾Ñ€Ð³Ð¾Ð²Ð»ÑŽ Ñ ÐºÑ€ÐµÑÑ‚ÑŒÑÐ½Ð°Ð¼Ð¸"
 }

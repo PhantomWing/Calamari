@@ -54,7 +54,18 @@ public final class CalamariLootSpec {
                 // Buried treasure: cooked cod -> 2–4 cooked calamari (50% chance),
                 // matching the vanilla cooked-cod stack size.
                 new Entry("cooked_calamari_from_buried_treasure", mc("chests/buried_treasure"), 0.5f,
-                        ModItems.COOKED_CALAMARI::get, 2, 4, List.of(() -> Items.COOKED_COD))
+                        ModItems.COOKED_CALAMARI::get, 2, 4, List.of(() -> Items.COOKED_COD)),
+
+                // Trial spawner consumables ejection: cooked chicken -> 1 cooked calamari
+                // (20% chance), matching the vanilla cooked-chicken stack size.
+                new Entry("cooked_calamari_from_trial_spawner_consumables",
+                        mc("spawners/trial_chamber/consumables"), 0.2f,
+                        ModItems.COOKED_CALAMARI::get, 1, 1, List.of(() -> Items.COOKED_CHICKEN)),
+
+                // Fishing: cod -> 1 raw calamari (10% chance), matching the vanilla
+                // single-cod fishing pull.
+                new Entry("calamari_from_fishing", mc("gameplay/fishing/fish"), 0.1f,
+                        ModItems.CALAMARI::get, 1, 1, List.of(() -> Items.COD))
         );
     }
 }

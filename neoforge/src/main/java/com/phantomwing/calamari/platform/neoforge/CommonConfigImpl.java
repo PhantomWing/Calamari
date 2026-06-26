@@ -11,10 +11,6 @@ public final class CommonConfigImpl {
     private CommonConfigImpl() {
     }
 
-    public static boolean squidsDropCalamari() {
-        return Configuration.SQUIDS_DROP_CALAMARI.get();
-    }
-
     public static boolean generateStructureLoot() {
         return Configuration.GENERATE_STRUCTURE_LOOT.get();
     }

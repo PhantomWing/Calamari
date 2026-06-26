@@ -49,11 +49,37 @@ dependencies {
 }
 
 processResources {
-    inputs.property 'version', project.version
+    // Properties expanded into fabric.mod.json — keep these in sync with the
+    // dependency versions in gradle.properties so the published jar pins to
+    // exactly the versions we compiled against (minimums for fabric-api / loader /
+    // architectury / cloth-config, plus the Minecraft version range).
+    def fmjProps = [
+            version              : project.version,
+            fabric_loader_version: rootProject.fabric_loader_version,
+            fabric_api_version   : rootProject.fabric_api_version,
+            minecraft_version_range: convertMavenRangeToFabricRange(rootProject.minecraft_version_range),
+            architectury_version : rootProject.architectury_version,
+            cloth_config_version : rootProject.cloth_config_version,
+    ]
+    inputs.properties fmjProps
 
     filesMatching('fabric.mod.json') {
-        expand 'version': project.version
+        expand fmjProps
     }
+}
+
+/**
+ * Convert a Maven-style version range like {@code [1.21,1.21.2)} to the
+ * Fabric-style range used in {@code fabric.mod.json} ({@code >=1.21 <1.21.2}).
+ * Lets both loaders read the same {@code minecraft_version_range} property in
+ * {@code gradle.properties}.
+ */
+static String convertMavenRangeToFabricRange(String mavenRange) {
+    def m = (mavenRange =~ /^\[([^,\]]+),([^\)\]]+)\)$/)
+    if (m.matches()) {
+        return ">=${m[0][1]} <${m[0][2]}"
+    }
+    return mavenRange
 }
 
 shadowJar {

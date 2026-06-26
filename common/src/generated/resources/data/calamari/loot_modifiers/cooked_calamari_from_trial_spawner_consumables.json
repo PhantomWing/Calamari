@@ -1,0 +1,19 @@
+{
+  "type": "calamari:replace_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:spawners/trial_chamber/consumables"
+    },
+    {
+      "chance": 0.2,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "calamari:cooked_calamari",
+  "max_count": 1,
+  "min_count": 1,
+  "removed_item": [
+    "minecraft:cooked_chicken"
+  ]
+}

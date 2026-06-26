@@ -1,8 +1,7 @@
 {
-  "item.calamari.calamari": "Шикі кальмар еті",
-  "item.calamari.cooked_calamari": "Пісірілген кальмар еті",
+  "item.calamari.calamari": "Ð¨Ð¸ÐºÑ– ÐºÐ°Ð»ÑŒÐ¼Ð°Ñ€ ÐµÑ‚Ñ–",
+  "item.calamari.cooked_calamari": "ÐŸÑ–ÑÑ–Ñ€Ñ–Ð»Ð³ÐµÐ½ ÐºÐ°Ð»ÑŒÐ¼Ð°Ñ€ ÐµÑ‚Ñ–",
   "text.autoconfig.calamari.title": "Calamari",
-  "text.autoconfig.calamari.option.squids_drop_calamari": "Кальмар еті сегізаяқтан түседі",
-  "text.autoconfig.calamari.option.generate_structure_loot": "Жасалған олжадағы кальмар еті",
-  "text.autoconfig.calamari.option.enable_villager_trades": "Шаруамен сауданы қосу"
+  "text.autoconfig.calamari.option.generate_structure_loot": "Ð–Ð°ÑÐ°Ð»Ò“Ð°Ð½ Ð¾Ð»Ð¶Ð°Ð´Ð°Ò“Ñ‹ ÐºÐ°Ð»ÑŒÐ¼Ð°Ñ€ ÐµÑ‚Ñ–",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Ð¨Ð°Ñ€ÑƒÐ°Ð¼ÐµÐ½ ÑÐ°ÑƒÐ´Ð°Ð½Ñ‹ Ò›Ð¾ÑÑƒ"
 }
