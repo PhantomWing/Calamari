@@ -23,6 +23,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/raw_fish"));
     private static final TagKey<Item> C_FOODS_COOKED_FISH =
             TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/cooked_fish"));
+    private static final TagKey<Item> C_FOODS_SEAFOOD =
+            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/seafood"));
 
     public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                                CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper existingFileHelper) {
@@ -43,8 +45,15 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         // contains both raw and cooked variants of fish).
         tag(ItemTags.WOLF_FOOD).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
 
+        // Dolphins treat fish as feed: feeding an item in minecraft:fishes triggers
+        // the lead-to-treasure behaviour (Dolphin#mobInteract checks ItemTags.FISHES).
+        // Squid is a dolphin's natural prey, so calamari fits. Vanilla keeps cooked
+        // cod/salmon in this tag too, so cooked calamari is included for parity.
+        tag(ItemTags.FISHES).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
+
         // Conventional seafood food tags for cross-mod integration.
         tag(C_FOODS_RAW_FISH).add(ModItems.CALAMARI.get());
         tag(C_FOODS_COOKED_FISH).add(ModItems.COOKED_CALAMARI.get());
+        tag(C_FOODS_SEAFOOD).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
     }
 }
