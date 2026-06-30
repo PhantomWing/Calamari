@@ -119,3 +119,42 @@ publishing {
         // Add repositories to publish to here.
     }
 }
+
+// ---- Modrinth + CurseForge publishing (Fabric jar) ----
+//
+// Its own version per platform, so fabric-api and cloth-config are required only on
+// the Fabric download. The version number is suffixed `+fabric` to stay unique
+// against the NeoForge version under the same project. Dry-run unless a token is set.
+apply plugin: 'me.modmuss50.mod-publish-plugin'
+
+publishMods {
+    type = STABLE
+    file = remapJar.archiveFile
+    version = "${rootProject.mod_version}+fabric"
+    changelog = providers.environmentVariable("CHANGELOG").orElse("See the GitHub release notes.")
+    dryRun = !providers.environmentVariable("MODRINTH_TOKEN").isPresent() &&
+            !providers.environmentVariable("CURSEFORGE_TOKEN").isPresent()
+    modLoaders.add("fabric")
+
+    modrinth {
+        projectId = providers.gradleProperty("modrinth_project_id")
+                .orElse(providers.environmentVariable("MODRINTH_PROJECT_ID")).orElse("PLACEHOLDER")
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse("")
+        displayName = "Calamari ${rootProject.mod_version}"
+        minecraftVersions.add(rootProject.minecraft_version)
+        requires { slug = "architectury-api" }
+        requires { slug = "fabric-api" }
+        requires { slug = "cloth-config" }
+    }
+
+    curseforge {
+        projectId = providers.gradleProperty("curseforge_project_id")
+                .orElse(providers.environmentVariable("CURSEFORGE_PROJECT_ID")).orElse("PLACEHOLDER")
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse("")
+        displayName = "Calamari ${rootProject.mod_version}"
+        minecraftVersions.add(rootProject.minecraft_version)
+        requires { slug = "architectury-api" }
+        requires { slug = "fabric-api" }
+        requires { slug = "cloth-config" }
+    }
+}

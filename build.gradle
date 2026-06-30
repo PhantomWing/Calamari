@@ -1,7 +1,7 @@
 plugins {
     id 'architectury-plugin' version "${architectury_plugin_version}"
     id 'dev.architectury.loom' version "${architectury_loom_version}" apply false
-    id 'me.modmuss50.mod-publish-plugin' version '0.8.4'
+    id 'me.modmuss50.mod-publish-plugin' version '0.8.4' apply false
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -94,10 +94,12 @@ allprojects {
 
 // ---- Automatic deployment (Modrinth + CurseForge) ----
 //
-// Driven by the manual `.github/workflows/release.yml` (workflow_dispatch). Each
-// release publishes ONE version per platform containing both loader jars (the
-// Fabric jar as the primary file, the NeoForge jar as an additional file), with
-// both loaders listed.
+// Publishing is configured PER LOADER in fabric/build.gradle and neoforge/build.gradle,
+// so each release produces its own version per platform with loader-correct
+// dependencies: fabric-api + cloth-config are required only on the Fabric version,
+// while the NeoForge version requires just architectury-api. The two versions get
+// distinct version numbers (`${mod_version}+fabric` / `+neoforge`) because Modrinth
+// requires a unique version number per upload. `./gradlew publishMods` runs both.
 //
 // BEFORE the first publish you must:
 //   1. Create the Modrinth + CurseForge projects.
@@ -108,42 +110,3 @@ allprojects {
 //      (GitHub secrets just don't carry between repos, so paste them per repo).
 // Until a token is present `publishMods` runs in dry-run mode, so it never
 // uploads or fails CI accidentally.
-def fabricRemap = project(":fabric").tasks.named("remapJar")
-def neoforgeRemap = project(":neoforge").tasks.named("remapJar")
-
-publishMods {
-    type = STABLE
-    version = mod_version
-    changelog = providers.environmentVariable("CHANGELOG").orElse("See the GitHub release notes.")
-    // Dry-run unless at least one access token is present (i.e. running in CI with secrets set).
-    dryRun = !providers.environmentVariable("MODRINTH_TOKEN").isPresent() &&
-            !providers.environmentVariable("CURSEFORGE_TOKEN").isPresent()
-
-    modrinth {
-        projectId = providers.gradleProperty("modrinth_project_id")
-                .orElse(providers.environmentVariable("MODRINTH_PROJECT_ID")).orElse("PLACEHOLDER")
-        accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse("")
-        displayName = "Calamari ${mod_version} (MC ${minecraft_version})"
-        minecraftVersions.add(minecraft_version)
-        modLoaders.add("fabric")
-        modLoaders.add("neoforge")
-        file.set(fabricRemap.flatMap { it.archiveFile })
-        additionalFiles.from(neoforgeRemap.flatMap { it.archiveFile })
-        requires { slug = "architectury-api" }
-        optional { slug = "fabric-api" }
-    }
-
-    curseforge {
-        projectId = providers.gradleProperty("curseforge_project_id")
-                .orElse(providers.environmentVariable("CURSEFORGE_PROJECT_ID")).orElse("PLACEHOLDER")
-        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse("")
-        displayName = "Calamari ${mod_version} (MC ${minecraft_version})"
-        minecraftVersions.add(minecraft_version)
-        modLoaders.add("fabric")
-        modLoaders.add("neoforge")
-        file.set(fabricRemap.flatMap { it.archiveFile })
-        additionalFiles.from(neoforgeRemap.flatMap { it.archiveFile })
-        requires { slug = "architectury-api" }
-        optional { slug = "fabric-api" }
-    }
-}
