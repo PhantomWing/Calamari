@@ -105,8 +105,8 @@ allprojects {
 //   1. Create the Modrinth + CurseForge projects.
 //   2. Fill modrinth_project_id / curseforge_project_id in gradle.properties
 //      (public IDs — committed, not secrets).
-//   3. Set TWO repo secrets: MODRINTH_TOKEN, CURSEFORGE_TOKEN. These are
-//      account-wide tokens — reuse the same values across all your projects
-//      (GitHub secrets just don't carry between repos, so paste them per repo).
-// Until a token is present `publishMods` runs in dry-run mode, so it never
-// uploads or fails CI accidentally.
+//   3. Provide account-wide tokens. CI: set MODRINTH_TOKEN / CURSEFORGE_TOKEN repo
+//      secrets (env). Local: put modrinth_token / curseforge_token in your global
+//      ~/.gradle/gradle.properties (never committed). Each block reads the env var
+//      first, then falls back to the gradle property.
+// `publishMods` publishes for real; pass -PpublishDryRun to stage without uploading.

@@ -149,14 +149,14 @@ publishMods {
     file = remapJar.archiveFile
     version = "${rootProject.mod_version}+neoforge"
     changelog = providers.environmentVariable("CHANGELOG").orElse("See the GitHub release notes.")
-    dryRun = !providers.environmentVariable("MODRINTH_TOKEN").isPresent() &&
-            !providers.environmentVariable("CURSEFORGE_TOKEN").isPresent()
+    // Real publish by default; pass -PpublishDryRun to stage without uploading.
+    dryRun = project.hasProperty("publishDryRun")
     modLoaders.add("neoforge")
 
     modrinth {
         projectId = providers.gradleProperty("modrinth_project_id")
                 .orElse(providers.environmentVariable("MODRINTH_PROJECT_ID")).orElse("PLACEHOLDER")
-        accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse("")
+        accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse(providers.gradleProperty("modrinth_token"))
         displayName = "Calamari ${rootProject.mod_version}"
         minecraftVersions.add(rootProject.minecraft_version)
         requires { slug = "architectury-api" }
@@ -165,7 +165,7 @@ publishMods {
     curseforge {
         projectId = providers.gradleProperty("curseforge_project_id")
                 .orElse(providers.environmentVariable("CURSEFORGE_PROJECT_ID")).orElse("PLACEHOLDER")
-        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse("")
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse(providers.gradleProperty("curseforge_token"))
         displayName = "Calamari ${rootProject.mod_version}"
         minecraftVersions.add(rootProject.minecraft_version)
         requires { slug = "architectury-api" }
