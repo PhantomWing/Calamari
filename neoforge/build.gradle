@@ -148,7 +148,7 @@ publishMods {
     type = STABLE
     file = remapJar.archiveFile
     version = "${rootProject.mod_version}+neoforge"
-    changelog = providers.environmentVariable("CHANGELOG").orElse("See the GitHub release notes.")
+    changelog = rootProject.ext.latestChangelog()
     // Real publish by default; pass -PpublishDryRun to stage without uploading.
     dryRun = project.hasProperty("publishDryRun")
     modLoaders.add("neoforge")
@@ -159,7 +159,7 @@ publishMods {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse(providers.gradleProperty("modrinth_token"))
         displayName = "Calamari ${rootProject.mod_version}"
         minecraftVersions.add(rootProject.minecraft_version)
-        requires { slug = "architectury-api" }
+        requires("architectury-api")
     }
 
     curseforge {
@@ -168,6 +168,9 @@ publishMods {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse(providers.gradleProperty("curseforge_token"))
         displayName = "Calamari ${rootProject.mod_version}"
         minecraftVersions.add(rootProject.minecraft_version)
-        requires { slug = "architectury-api" }
+        // CurseForge needs explicit side flags (Modrinth uses `environment` above).
+        client = true
+        server = true
+        requires("architectury-api")
     }
 }
