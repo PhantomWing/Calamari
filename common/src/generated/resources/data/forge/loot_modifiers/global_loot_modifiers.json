@@ -1,0 +1,9 @@
+{
+  "entries": [
+    "calamari:calamari_from_village_fisher",
+    "calamari:cooked_calamari_from_buried_treasure",
+    "calamari:calamari_from_fishing",
+    "calamari:calamari_from_fisherman_gift"
+  ],
+  "replace": false
+}

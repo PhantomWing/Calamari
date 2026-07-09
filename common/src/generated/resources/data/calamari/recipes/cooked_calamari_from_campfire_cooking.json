@@ -6,8 +6,5 @@
   "ingredient": {
     "item": "calamari:calamari"
   },
-  "result": {
-    "count": 1,
-    "id": "calamari:cooked_calamari"
-  }
+  "result": "calamari:cooked_calamari"
 }

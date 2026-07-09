@@ -5,11 +5,11 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 
 /**
- * NeoForge creative-tab injection. Places Calamari and Cooked Calamari into the
+ * Forge creative-tab injection. Places Calamari and Cooked Calamari into the
  * vanilla Food &amp; Drinks tab, right after Cooked Rabbit (and so before Raw Cod).
  * The Fabric twin uses {@code ItemGroupEvents.modifyEntriesEvent}.
  */
@@ -23,9 +23,9 @@ public final class ModCreativeTabs {
 
     private static void onBuildContents(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS) {
-            event.insertAfter(new ItemStack(Items.COOKED_RABBIT), new ItemStack(ModItems.CALAMARI.get()),
+            event.getEntries().putAfter(new ItemStack(Items.COOKED_RABBIT), new ItemStack(ModItems.CALAMARI.get()),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.insertAfter(new ItemStack(ModItems.CALAMARI.get()), new ItemStack(ModItems.COOKED_CALAMARI.get()),
+            event.getEntries().putAfter(new ItemStack(ModItems.CALAMARI.get()), new ItemStack(ModItems.COOKED_CALAMARI.get()),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }

@@ -1,37 +1,45 @@
 package com.phantomwing.calamari.neoforge;
 
 import com.phantomwing.calamari.CalamariCommon;
-import com.phantomwing.calamari.neoforge.client.CalamariNeoForgeClient;
+import com.phantomwing.calamari.food.CalamariPetFood;
 import com.phantomwing.calamari.neoforge.loot.ModLootModifiers;
 import com.phantomwing.calamari.neoforge.ui.ModCreativeTabs;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.loading.FMLEnvironment;
+import dev.architectury.platform.forge.EventBuses;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 /**
- * NeoForge entrypoint for Calamari. Performs the loader-agnostic bootstrap via
- * {@link CalamariCommon#init()}, then registers the NeoForge {@code ModConfigSpec}.
- * Villager trades are wired separately via {@code @EventBusSubscriber}.
+ * Forge entrypoint for Calamari on 1.20.1 (this jar also runs on NeoForge 1.20.1,
+ * which is a Forge-compatible soft-fork). Performs the loader-agnostic bootstrap via
+ * {@link CalamariCommon#init()}, then registers the Forge {@code ForgeConfigSpec} and
+ * the Global Loot Modifier serializer. Villager trades are wired separately via
+ * {@code @Mod.EventBusSubscriber}.
  */
 @Mod(CalamariCommon.MOD_ID)
 public final class CalamariNeoForge {
-    public CalamariNeoForge(IEventBus modEventBus, ModContainer container) {
+    public CalamariNeoForge() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        // Hand the mod event bus to Architectury so its DeferredRegisters (invoked
+        // in CalamariCommon.init below) can register on the Forge platform.
+        EventBuses.registerModEventBus(CalamariCommon.MOD_ID, modEventBus);
+
         CalamariCommon.init();
 
-        // NeoForge Global Loot Modifier serializer (structure-loot replacement).
+        // Forge Global Loot Modifier serializer (structure-loot replacement).
         ModLootModifiers.register(modEventBus);
 
-        container.registerConfig(ModConfig.Type.COMMON, Configuration.COMMON_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Configuration.COMMON_CONFIG);
 
         // Inject Calamari + Cooked Calamari into the vanilla Food & Drinks tab.
         ModCreativeTabs.register(modEventBus);
 
-        // Client-only: register the in-game config screen. Isolated in a separate
-        // class so the dedicated server never loads the referenced client types.
-        if (FMLEnvironment.dist.isClient()) {
-            CalamariNeoForgeClient.init(container);
-        }
+        // Append calamari to the hardcoded cat/ocelot tempt ingredients (after
+        // registration, on the main thread).
+        modEventBus.addListener((FMLCommonSetupEvent event) -> event.enqueueWork(CalamariPetFood::register));
     }
 }

@@ -4,8 +4,7 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    neoForge {
-    }
+    forge()
 }
 
 // Resolved outside the loom { runs { } } closures so the data-generation paths
@@ -17,42 +16,29 @@ def datagenExisting = rootProject.file('common/src/main/resources/').absolutePat
 loom {
     accessWidenerPath = project(':common').loom.accessWidenerPath
 
-    // Include the test-only source set in the dev mod definition so NeoForge's
-    // @GameTestHolder scan discovers the game tests. This only affects the dev
-    // runtime mod — the production jar is still built from `main` only, so the
-    // test class + empty.nbt structure never ship.
+    forge {
+        // The loader module builds against Forge on 1.20.1; the common access
+        // widener is converted into a Forge access transformer at build time.
+        convertAccessWideners = true
+        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+    }
+
+    // Register the mod (and its source set) with the dev runtime, so Forge wires up
+    // the mod event bus during mod construction.
     mods {
         register('calamari') {
             sourceSet sourceSets.main
-            sourceSet sourceSets.test
         }
     }
 
     runs {
-        // NeoForge data generation. Output + existing-resource paths point at the
+        // Forge data generation. Output + existing-resource paths point at the
         // common source set (datagen output is shared across loaders).
         //   ./gradlew :neoforge:runData
         data {
             data()
             name = "Data Generation"
             programArgs('--mod', datagenModId, '--all', '--output', datagenOutput, '--existing', datagenExisting)
-        }
-
-        // Headless NeoForge game-test server: runs every registered @GameTest in
-        // the `calamari` namespace, prints PASS/FAIL, and exits. Gametest mode is
-        // toggled via system properties (same as NeoForge's own gameTestServer run),
-        // NOT a program arg.
-        //   ./gradlew :neoforge:runGameTest
-        gameTest {
-            server()
-            name = "Game Test"
-            runDir "run/gametest"
-            // Run from the test-only source set so the test class + empty.nbt
-            // structure never ship in the production jar.
-            source sourceSets.test
-            property 'neoforge.enableGameTest', 'true'
-            property 'neoforge.gameTestServer', 'true'
-            property 'neoforge.enabledGameTestNamespaces', 'calamari'
         }
     }
 }
@@ -62,38 +48,26 @@ configurations {
     shadowCommon // Don't use shadow from the shadow plugin since it *excludes* files.
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentNeoForge.extendsFrom common
-}
-
-// Test-only source set for game tests (NeoForge GLM loot verification). Kept out
-// of the main source set so neither the test class nor its empty.nbt structure
-// ship in the production jar. It inherits main's full compile/runtime classpath
-// (Minecraft, NeoForge, Architectury, the common project) plus main's output.
-sourceSets {
-    test {
-        compileClasspath += sourceSets.main.compileClasspath + sourceSets.main.output
-        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.main.output
-    }
+    developmentForge.extendsFrom common
 }
 
 dependencies {
-    neoForge "net.neoforged:neoforge:${rootProject.neo_version}"
-    // Architectury API (NeoForge).
-    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
+    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    // Architectury API (Forge).
+    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge')) { transitive false }
+    shadowCommon(project(path: ':common', configuration: 'transformProductionForge')) { transitive false }
 
     // ---- Dev-runtime niceties (modLocalRuntime ONLY — never compiled against,
     //      never shipped, never a hard dependency). ----
-    modLocalRuntime("mezz.jei:jei-1.21.1-neoforge:${rootProject.jei_version}")
-    modLocalRuntime("squeek.appleskin:appleskin-neoforge:mc1.21-${rootProject.appleskin_version}")
+    modLocalRuntime("mezz.jei:jei-1.20.1-forge:${rootProject.jei_version}")
 }
 
 processResources {
     inputs.property 'version', project.version
 
-    filesMatching('META-INF/neoforge.mods.toml') {
+    filesMatching('META-INF/mods.toml') {
         expand 'version': project.version
     }
 }
@@ -125,8 +99,8 @@ components.java {
 
 publishing {
     publications {
-        mavenNeoForge(MavenPublication) {
-            artifactId = "${rootProject.mod_id}-neoforge"
+        mavenForge(MavenPublication) {
+            artifactId = "${rootProject.mod_id}-forge"
             from components.java
         }
     }
@@ -136,21 +110,21 @@ publishing {
     }
 }
 
-// ---- Modrinth + CurseForge publishing (NeoForge jar) ----
+// ---- Modrinth + CurseForge publishing (Forge jar, also serves NeoForge 1.20.1) ----
 //
-// Its own version per platform, requiring only architectury-api (fabric-api and
-// cloth-config are Fabric-only and live on the Fabric version). The version number is
-// suffixed `+neoforge` to stay unique against the Fabric version under the same
+// Its own version per platform, requiring only architectury-api. The version number
+// is suffixed `+forge` to stay unique against the Fabric version under the same
 // project. Dry-run unless a token is set.
 apply plugin: 'me.modmuss50.mod-publish-plugin'
 
 publishMods {
     type = STABLE
     file = remapJar.archiveFile
-    version = "${rootProject.mod_version}+neoforge"
+    version = "${rootProject.mod_version}+forge"
     changelog = rootProject.ext.latestChangelog()
     // Real publish by default; pass -PpublishDryRun to stage without uploading.
     dryRun = project.hasProperty("publishDryRun")
+    modLoaders.add("forge")
     modLoaders.add("neoforge")
 
     modrinth {
@@ -168,7 +142,7 @@ publishMods {
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse(providers.gradleProperty("curseforge_token"))
         displayName = "Calamari ${rootProject.mod_version}"
         minecraftVersions.add(rootProject.minecraft_version)
-        // CurseForge needs explicit side flags (Modrinth uses `environment` above).
+        // CurseForge needs explicit side flags (Modrinth uses the project setting).
         client = true
         server = true
         requires("architectury-api")

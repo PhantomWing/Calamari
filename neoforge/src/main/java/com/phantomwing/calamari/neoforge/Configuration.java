@@ -1,20 +1,20 @@
 package com.phantomwing.calamari.neoforge;
 
-import net.neoforged.neoforge.common.ModConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 /**
- * NeoForge config ({@code ModConfigSpec}), persisted to
+ * Forge config ({@code ForgeConfigSpec}), persisted to
  * {@code config/calamari-common.toml}. The option ids and {@code true} defaults
  * are kept 1:1 with the Fabric {@code CalamariFabricConfig}.
  */
 public class Configuration {
-    public static final ModConfigSpec COMMON_CONFIG;
+    public static final ForgeConfigSpec COMMON_CONFIG;
 
     public static final String GENERATE_STRUCTURE_LOOT_ID = "generate_structure_loot";
-    public static final ModConfigSpec.BooleanValue GENERATE_STRUCTURE_LOOT;
+    public static final ForgeConfigSpec.BooleanValue GENERATE_STRUCTURE_LOOT;
 
     public static final String ENABLE_VILLAGER_TRADES_ID = "enable_villager_trades";
-    public static final ModConfigSpec.BooleanValue ENABLE_VILLAGER_TRADES;
+    public static final ForgeConfigSpec.BooleanValue ENABLE_VILLAGER_TRADES;
 
     public static boolean getBooleanConfigurationValue(String id) {
         return switch (id) {
@@ -25,7 +25,7 @@ public class Configuration {
     }
 
     static {
-        ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
+        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 
         GENERATE_STRUCTURE_LOOT = builder
                 .comment("Add or replace calamari in generated loot: village fisher chests, buried treasure, guardian/elder guardian drops, and Hero of the Village & cat morning gifts.")

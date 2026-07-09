@@ -11,20 +11,17 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagsProvider extends ItemTagsProvider {
-    // Conventional seafood food tags (the `c:` namespace), as used by Rustic
-    // Delight and other food mods.
-    private static final TagKey<Item> C_FOODS_RAW_FISH =
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/raw_fish"));
-    private static final TagKey<Item> C_FOODS_COOKED_FISH =
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/cooked_fish"));
-    private static final TagKey<Item> C_FOODS_SEAFOOD =
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/seafood"));
+    // Conventional Forge food tags (the `forge:` namespace on 1.20.1), as used by
+    // Rustic Delight and other food mods.
+    private static final TagKey<Item> FORGE_RAW_FISHES =
+            TagKey.create(Registries.ITEM, new ResourceLocation("forge", "raw_fishes"));
+    private static final TagKey<Item> FORGE_COOKED_FISHES =
+            TagKey.create(Registries.ITEM, new ResourceLocation("forge", "cooked_fishes"));
 
     public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
                                CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper existingFileHelper) {
@@ -33,27 +30,13 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        // Conventional `c:foods` so other mods recognise the calamari items as food.
-        tag(Tags.Items.FOODS)
-                .add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
-
-        // Raw calamari counts as cat/ocelot food, like raw cod and salmon do.
-        tag(ItemTags.CAT_FOOD).add(ModItems.CALAMARI.get());
-        tag(ItemTags.OCELOT_FOOD).add(ModItems.CALAMARI.get());
-
-        // Wolves accept raw and cooked calamari as food (the vanilla wolf_food tag
-        // contains both raw and cooked variants of fish).
-        tag(ItemTags.WOLF_FOOD).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
-
         // Dolphins treat fish as feed: feeding an item in minecraft:fishes triggers
-        // the lead-to-treasure behaviour (Dolphin#mobInteract checks ItemTags.FISHES).
-        // Squid is a dolphin's natural prey, so calamari fits. Vanilla keeps cooked
-        // cod/salmon in this tag too, so cooked calamari is included for parity.
+        // the lead-to-treasure behaviour. Cooked calamari is included for parity
+        // with vanilla cooked cod/salmon.
         tag(ItemTags.FISHES).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
 
-        // Conventional seafood food tags for cross-mod integration.
-        tag(C_FOODS_RAW_FISH).add(ModItems.CALAMARI.get());
-        tag(C_FOODS_COOKED_FISH).add(ModItems.COOKED_CALAMARI.get());
-        tag(C_FOODS_SEAFOOD).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
+        // Conventional Forge food tags for cross-mod integration.
+        tag(FORGE_RAW_FISHES).add(ModItems.CALAMARI.get());
+        tag(FORGE_COOKED_FISHES).add(ModItems.COOKED_CALAMARI.get());
     }
 }

@@ -23,7 +23,7 @@ public final class SquidLootInjection {
     }
 
     public static void register() {
-        LootEvent.MODIFY_LOOT_TABLE.register((key, context, builtin) -> {
+        LootEvent.MODIFY_LOOT_TABLE.register((lootManager, key, context, builtin) -> {
             if (!builtin) {
                 return;
             }

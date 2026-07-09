@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "items": "calamari:calamari"
+            "items": [
+              "calamari:calamari"
+            ]
           }
         ]
       },
@@ -13,20 +15,21 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "calamari:cooked_calamari_from_campfire_cooking"
+        "recipe": "calamari:cooked_calamari_from_smoking"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_the_recipe",
-      "has_calamari"
+      "has_calamari",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "calamari:cooked_calamari_from_campfire_cooking"
+      "calamari:cooked_calamari_from_smoking"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

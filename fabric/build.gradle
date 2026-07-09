@@ -44,8 +44,7 @@ dependencies {
 
     // ---- Dev-runtime niceties (modLocalRuntime ONLY — never compiled against,
     //      never shipped, never a hard dependency). ----
-    modLocalRuntime("mezz.jei:jei-1.21.1-fabric:${rootProject.jei_version}")
-    modLocalRuntime("squeek.appleskin:appleskin-fabric:mc1.21-3.0.6")
+    modLocalRuntime("mezz.jei:jei-1.20.1-fabric:${rootProject.jei_version}")
 }
 
 processResources {

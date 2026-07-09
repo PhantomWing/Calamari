@@ -36,7 +36,7 @@ public final class CalamariLootSpec {
     }
 
     private static ResourceLocation mc(String path) {
-        return ResourceLocation.withDefaultNamespace(path);
+        return new ResourceLocation(path);
     }
 
     /** The complete ordered list of loot replacements. */
@@ -55,12 +55,6 @@ public final class CalamariLootSpec {
                 // matching the vanilla cooked-cod stack size.
                 new Entry("cooked_calamari_from_buried_treasure", mc("chests/buried_treasure"), 0.5f,
                         ModItems.COOKED_CALAMARI::get, 2, 4, List.of(() -> Items.COOKED_COD)),
-
-                // Trial spawner consumables ejection: cooked chicken -> 1 cooked calamari
-                // (20% chance), matching the vanilla cooked-chicken stack size.
-                new Entry("cooked_calamari_from_trial_spawner_consumables",
-                        mc("spawners/trial_chamber/consumables"), 0.2f,
-                        ModItems.COOKED_CALAMARI::get, 1, 1, List.of(() -> Items.COOKED_CHICKEN)),
 
                 // Fishing: cod -> 1 raw calamari (10% chance), matching the vanilla
                 // single-cod fishing pull.

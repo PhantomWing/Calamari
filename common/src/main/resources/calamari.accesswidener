@@ -1,1 +1,9 @@
 accessWidener	v2	named
+
+# Cat/ocelot tempt ingredients are hardcoded (cod+salmon) on 1.20.1 — the
+# cat_food/ocelot_food item tags only exist from 1.20.5. Open these fields so
+# calamari can be appended to them at setup (see CalamariPetFood).
+accessible	field	net/minecraft/world/entity/animal/Cat	TEMPT_INGREDIENT	Lnet/minecraft/world/item/crafting/Ingredient;
+mutable	field	net/minecraft/world/entity/animal/Cat	TEMPT_INGREDIENT	Lnet/minecraft/world/item/crafting/Ingredient;
+accessible	field	net/minecraft/world/entity/animal/Ocelot	TEMPT_INGREDIENT	Lnet/minecraft/world/item/crafting/Ingredient;
+mutable	field	net/minecraft/world/entity/animal/Ocelot	TEMPT_INGREDIENT	Lnet/minecraft/world/item/crafting/Ingredient;

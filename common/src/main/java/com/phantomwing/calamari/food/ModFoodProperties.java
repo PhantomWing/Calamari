@@ -8,10 +8,10 @@ import net.minecraft.world.food.FoodProperties;
  */
 public final class ModFoodProperties {
     public static final FoodProperties CALAMARI = new FoodProperties.Builder()
-            .nutrition(2).saturationModifier(0.2F).build();
+            .nutrition(2).saturationMod(0.2F).build();
 
     public static final FoodProperties COOKED_CALAMARI = new FoodProperties.Builder()
-            .nutrition(5).saturationModifier(0.6F).build();
+            .nutrition(5).saturationMod(0.6F).build();
 
     private ModFoodProperties() {
     }
