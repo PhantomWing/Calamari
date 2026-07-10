@@ -7,7 +7,7 @@ loom {
 }
 
 // Datagen output is committed and shared across loaders. The Forge data generator
-// (see :neoforge) writes to src/generated/resources; wire that as an additional
+// (see :forge) writes to src/generated/resources; wire that as an additional
 // resource source directory so the generated assets/data ship in the common jar
 // (and therefore in every loader's mod jar).
 sourceSets {

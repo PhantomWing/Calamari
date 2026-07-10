@@ -1,8 +1,8 @@
-package com.phantomwing.calamari.neoforge.datagen;
+package com.phantomwing.calamari.forge.datagen;
 
 import com.phantomwing.calamari.CalamariCommon;
 import com.phantomwing.calamari.loot.CalamariLootSpec;
-import com.phantomwing.calamari.neoforge.loot.ReplaceItemModifier;
+import com.phantomwing.calamari.forge.loot.ReplaceItemModifier;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;

@@ -1,9 +1,9 @@
-package com.phantomwing.calamari.neoforge;
+package com.phantomwing.calamari.forge;
 
 import com.phantomwing.calamari.CalamariCommon;
 import com.phantomwing.calamari.food.CalamariPetFood;
-import com.phantomwing.calamari.neoforge.loot.ModLootModifiers;
-import com.phantomwing.calamari.neoforge.ui.ModCreativeTabs;
+import com.phantomwing.calamari.forge.loot.ModLootModifiers;
+import com.phantomwing.calamari.forge.ui.ModCreativeTabs;
 import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -20,8 +20,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
  * {@code @Mod.EventBusSubscriber}.
  */
 @Mod(CalamariCommon.MOD_ID)
-public final class CalamariNeoForge {
-    public CalamariNeoForge() {
+public final class CalamariForge {
+    public CalamariForge() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         // Hand the mod event bus to Architectury so its DeferredRegisters (invoked

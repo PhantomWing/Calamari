@@ -1,4 +1,4 @@
-package com.phantomwing.calamari.neoforge.ui;
+package com.phantomwing.calamari.forge.ui;
 
 import com.phantomwing.calamari.item.ModItems;
 import net.minecraft.world.item.CreativeModeTab;

@@ -1,4 +1,4 @@
-package com.phantomwing.calamari.neoforge;
+package com.phantomwing.calamari.forge;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 

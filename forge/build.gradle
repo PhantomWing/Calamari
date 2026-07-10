@@ -34,7 +34,7 @@ loom {
     runs {
         // Forge data generation. Output + existing-resource paths point at the
         // common source set (datagen output is shared across loaders).
-        //   ./gradlew :neoforge:runData
+        //   ./gradlew :forge:runData
         data {
             data()
             name = "Data Generation"

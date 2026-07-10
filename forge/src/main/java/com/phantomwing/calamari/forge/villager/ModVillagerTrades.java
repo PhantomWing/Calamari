@@ -1,7 +1,7 @@
-package com.phantomwing.calamari.neoforge.villager;
+package com.phantomwing.calamari.forge.villager;
 
 import com.phantomwing.calamari.CalamariCommon;
-import com.phantomwing.calamari.neoforge.Configuration;
+import com.phantomwing.calamari.forge.Configuration;
 import com.phantomwing.calamari.villager.CalamariVillagerTrades;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.world.entity.npc.VillagerProfession;

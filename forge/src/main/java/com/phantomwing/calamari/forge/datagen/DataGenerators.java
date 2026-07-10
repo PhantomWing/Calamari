@@ -1,4 +1,4 @@
-package com.phantomwing.calamari.neoforge.datagen;
+package com.phantomwing.calamari.forge.datagen;
 
 import com.phantomwing.calamari.CalamariCommon;
 import net.minecraft.core.HolderLookup;

@@ -1,4 +1,4 @@
-package com.phantomwing.calamari.neoforge.loot;
+package com.phantomwing.calamari.forge.loot;
 
 import com.mojang.serialization.Codec;
 import com.phantomwing.calamari.CalamariCommon;
