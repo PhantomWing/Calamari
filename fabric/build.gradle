@@ -122,15 +122,16 @@ publishing {
 
 // ---- Modrinth + CurseForge publishing (Fabric jar) ----
 //
-// Its own version per platform, so fabric-api and cloth-config are required only on
-// the Fabric download. The version number is suffixed `+fabric` to stay unique
-// against the NeoForge version under the same project. Dry-run unless a token is set.
+// Its own version, so fabric-api and cloth-config are required only on the Fabric
+// download. Platforms distinguish this from the NeoForge version by loader +
+// game-version tags (and the distinct file name), so no version-number suffix is
+// needed. Dry-run unless a token is set.
 apply plugin: 'me.modmuss50.mod-publish-plugin'
 
 publishMods {
     type = STABLE
     file = remapJar.archiveFile
-    version = "${rootProject.mod_version}+fabric"
+    version = rootProject.mod_version
     changelog = rootProject.ext.latestChangelog()
     // Real publish by default; pass -PpublishDryRun to stage without uploading.
     dryRun = project.hasProperty("publishDryRun")
