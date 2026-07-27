@@ -28,8 +28,9 @@ public final class SquidLootInjection {
                 return;
             }
 
-            if (EntityType.SQUID.getDefaultLootTable().equals(key)
-                    || EntityType.GLOW_SQUID.getDefaultLootTable().equals(key)) {
+            // 1.21.2+: EntityType#getDefaultLootTable returns Optional<ResourceKey<LootTable>>.
+            if (key.equals(EntityType.SQUID.getDefaultLootTable().orElse(null))
+                    || key.equals(EntityType.GLOW_SQUID.getDefaultLootTable().orElse(null))) {
                 LootPool.Builder pool = LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ModItems.CALAMARI.get()))

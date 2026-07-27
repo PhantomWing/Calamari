@@ -9,13 +9,13 @@ import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.context.ContextKeySet;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.neoforged.neoforge.gametest.GameTestHolder;
@@ -66,7 +66,8 @@ public class CalamariLootGameTest {
     private static void assertEntityTableYields(GameTestHelper helper, EntityType<?> type, Item expected) {
         ServerLevel level = helper.getLevel();
         Entity entity = helper.spawn(type, BlockPos.ZERO);
-        LootTable table = level.getServer().reloadableRegistries().getLootTable(type.getDefaultLootTable());
+        // 1.21.2+: getDefaultLootTable returns Optional<ResourceKey<LootTable>>.
+        LootTable table = level.getServer().reloadableRegistries().getLootTable(type.getDefaultLootTable().orElseThrow());
         LootParams params = new LootParams.Builder(level)
                 .withParameter(LootContextParams.THIS_ENTITY, entity)
                 .withParameter(LootContextParams.ORIGIN, helper.absolutePos(BlockPos.ZERO).getCenter())
@@ -95,7 +96,7 @@ public class CalamariLootGameTest {
      * item still appears in the other rolls — the assertion is simply that the
      * replacement shows up at all, which proves the GLM is wired for this table.
      */
-    private static void assertTableYields(GameTestHelper helper, String tablePath, LootContextParamSet paramSet, Item expected) {
+    private static void assertTableYields(GameTestHelper helper, String tablePath, ContextKeySet paramSet, Item expected) {
         ServerLevel level = helper.getLevel();
         // A THIS_ENTITY is required by the GIFT param set (and allowed by CHEST).
         Entity entity = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);

@@ -1,10 +1,10 @@
 {
   "entries": [
     "calamari:calamari_from_village_fisher",
-    "calamari:calamari_from_fisherman_gift",
     "calamari:cooked_calamari_from_buried_treasure",
     "calamari:cooked_calamari_from_trial_spawner_consumables",
-    "calamari:calamari_from_fishing"
+    "calamari:calamari_from_fishing",
+    "calamari:calamari_from_fisherman_gift"
   ],
   "replace": false
 }

@@ -13,7 +13,9 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = CalamariCommon.MOD_ID)
+// GatherDataEvent fires on the MOD bus. Since 1.21.2 @EventBusSubscriber defaults to
+// the GAME bus, so the bus must be set explicitly or datagen never runs.
+@EventBusSubscriber(modid = CalamariCommon.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -22,7 +24,7 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeServer(), new ModRecipeProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModRecipeProvider.Runner(output, lookupProvider));
         generator.addProvider(event.includeServer(), new ModItemTagsProvider(
                 output, lookupProvider, CompletableFuture.completedFuture(TagsProvider.TagLookup.<Block>empty()), existingFileHelper));
         generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(output, lookupProvider));
