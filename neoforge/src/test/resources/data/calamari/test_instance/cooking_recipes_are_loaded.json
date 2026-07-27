@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:function",
+  "function": "calamari:cooking_recipes_are_loaded",
+  "environment": "minecraft:default",
+  "structure": "calamari:empty",
+  "max_ticks": 200,
+  "setup_ticks": 0,
+  "required": true
+}
