@@ -44,8 +44,8 @@ dependencies {
 
     // ---- Dev-runtime niceties (modLocalRuntime ONLY — never compiled against,
     //      never shipped, never a hard dependency). ----
-    // NOTE (1.21.4): AppleSkin has no 1.21.4 build and no JEI-Fabric build surfaced,
-    // so the Fabric dev runtime currently has no extra mods.
+    modLocalRuntime("mezz.jei:jei-${rootProject.minecraft_version}-fabric:${rootProject.jei_version}")
+    modLocalRuntime("squeek.appleskin:appleskin-fabric:${rootProject.appleskin_version}")
 }
 
 processResources {

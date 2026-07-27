@@ -48,15 +48,33 @@ loom {
         // NOT a program arg.
         //   ./gradlew :neoforge:runGameTest
         gameTest {
-            server()
+            // NeoForge 21.5 selects gametest mode from the LAUNCH TARGET
+            // (`neoforgegametestserverdev`, see GameTestHooks#isGametestServer) — the old
+            // `neoforge.gameTestServer` property no longer switches modes. Loom derives
+            // that target from `environment`, so the environment string MUST equal the
+            // forge template name (every built-in helper sets both, e.g. server() =>
+            // environment "server" + forgeTemplate "server"). Setting only the template
+            // leaves the run on `neoforgeserverdev` and it just boots an idle server.
+            environment "gameTestServer"
+            forgeTemplate "gameTestServer"
             name = "Game Test"
             runDir "run/gametest"
-            // Run from the test-only source set so the test class + empty.nbt
+            // Run from the test-only source set so the test classes + empty.nbt
             // structure never ship in the production jar.
             source sourceSets.test
-            property 'neoforge.enableGameTest', 'true'
-            property 'neoforge.gameTestServer', 'true'
-            property 'neoforge.enabledGameTestNamespaces', 'calamari'
+            // Declare BOTH source sets as the mod *for this run only*, so NeoForge treats
+            // the test output as mod content: it scans CalamariGameTests'
+            // @EventBusSubscriber (registering the TEST_FUNCTION entries) and loads the
+            // test_instance / structure datapack resources.
+            mods {
+                "${rootProject.mod_id}" {
+                    sourceSet sourceSets.main
+                    sourceSet sourceSets.test
+                }
+            }
+            // Run ONLY this mod's tests (a /test-style selector), so a future built-in
+            // vanilla test can't break this run.
+            programArgs '--tests', "${rootProject.mod_id}:*"
         }
     }
 }
@@ -90,8 +108,8 @@ dependencies {
 
     // ---- Dev-runtime niceties (modLocalRuntime ONLY — never compiled against,
     //      never shipped, never a hard dependency). ----
-    // JEI — recipe viewer, dev-runtime only (NeoForge-only on 1.21.4).
-    modLocalRuntime("mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_neoforge_version}")
+    modLocalRuntime("mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}")
+    modLocalRuntime("squeek.appleskin:appleskin-neoforge:${rootProject.appleskin_version}")
 }
 
 processResources {
