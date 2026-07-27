@@ -32,8 +32,12 @@ loom {
         // NeoForge data generation. Output + existing-resource paths point at the
         // common source set (datagen output is shared across loaders).
         //   ./gradlew :neoforge:runData
+        // NeoForge 21.4 split the old single `data` run template into `clientData` +
+        // `serverData` (loom's data() maps to the now-removed `data` template, which
+        // fails to launch). clientData()'s environment is a superset (full client), so
+        // one run with --all emits BOTH the client model providers and the server data.
         data {
-            data()
+            clientData()
             name = "Data Generation"
             programArgs('--mod', datagenModId, '--all', '--output', datagenOutput, '--existing', datagenExisting)
         }
@@ -86,7 +90,8 @@ dependencies {
 
     // ---- Dev-runtime niceties (modLocalRuntime ONLY — never compiled against,
     //      never shipped, never a hard dependency). ----
-    modLocalRuntime("squeek.appleskin:appleskin-neoforge:${rootProject.appleskin_version}")
+    // JEI — recipe viewer, dev-runtime only (NeoForge-only on 1.21.4).
+    modLocalRuntime("mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_neoforge_version}")
 }
 
 processResources {
@@ -157,7 +162,7 @@ publishMods {
                 .orElse(providers.environmentVariable("MODRINTH_PROJECT_ID")).orElse("PLACEHOLDER")
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse(providers.gradleProperty("modrinth_token"))
         displayName = "Calamari ${rootProject.mod_version}"
-        minecraftVersions.addAll("1.21.2", rootProject.minecraft_version)
+        minecraftVersions.add(rootProject.minecraft_version)
         requires("architectury-api")
     }
 
@@ -166,7 +171,7 @@ publishMods {
                 .orElse(providers.environmentVariable("CURSEFORGE_PROJECT_ID")).orElse("PLACEHOLDER")
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse(providers.gradleProperty("curseforge_token"))
         displayName = "Calamari ${rootProject.mod_version}"
-        minecraftVersions.addAll("1.21.2", rootProject.minecraft_version)
+        minecraftVersions.add(rootProject.minecraft_version)
         // CurseForge needs explicit side flags (Modrinth uses `environment` above).
         client = true
         server = true

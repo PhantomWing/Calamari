@@ -8,27 +8,30 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.concurrent.CompletableFuture;
 
-// GatherDataEvent fires on the MOD bus. Since 1.21.2 @EventBusSubscriber defaults to
-// the GAME bus, so the bus must be set explicitly or datagen never runs.
+// GatherDataEvent is a MOD-bus event. 1.21.4 reworked it: there is no more
+// includeServer()/includeClient() gating or getExistingFileHelper() — you just
+// event.addProvider(provider) and the run args (--all/--client/--server) decide what
+// actually emits. The event is also abstract now, so we subscribe to the concrete
+// Client subclass (its environment is a full client, so the server-side providers
+// added here run fine alongside the model provider).
 @EventBusSubscriber(modid = CalamariCommon.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class DataGenerators {
     @SubscribeEvent
-    public static void gatherData(GatherDataEvent event) {
+    public static void gatherData(GatherDataEvent.Client event) {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(event.includeServer(), new ModRecipeProvider.Runner(output, lookupProvider));
-        generator.addProvider(event.includeServer(), new ModItemTagsProvider(
-                output, lookupProvider, CompletableFuture.completedFuture(TagsProvider.TagLookup.<Block>empty()), existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModGlobalLootModifierProvider(output, lookupProvider));
+        event.addProvider(new ModRecipeProvider.Runner(output, lookupProvider));
+        event.addProvider(new ModItemTagsProvider(
+                output, lookupProvider, CompletableFuture.completedFuture(TagsProvider.TagLookup.<Block>empty())));
+        event.addProvider(new ModGlobalLootModifierProvider(output, lookupProvider));
 
-        generator.addProvider(event.includeClient(), new ModItemModelProvider(output, existingFileHelper));
+        // 1.21.4: block + item models come from a single vanilla-style ModelProvider.
+        event.addProvider(new ModModelProvider(output));
     }
 }

@@ -12,7 +12,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -27,8 +26,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/seafood"));
 
     public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
-                               CompletableFuture<TagLookup<Block>> blockTags, ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, blockTags, Calamari.MOD_ID, existingFileHelper);
+                               CompletableFuture<TagLookup<Block>> blockTags) {
+        super(output, lookupProvider, blockTags, Calamari.MOD_ID);
     }
 
     @Override
