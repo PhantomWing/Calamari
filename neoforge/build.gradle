@@ -108,8 +108,8 @@ dependencies {
 
     // ---- Dev-runtime niceties (modLocalRuntime ONLY — never compiled against,
     //      never shipped, never a hard dependency). ----
-    modLocalRuntime("mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}")
-    modLocalRuntime("squeek.appleskin:appleskin-neoforge:${rootProject.appleskin_version}")
+    // JEI has no 1.21.6 build, so only AppleSkin is wired up here.
+    modLocalRuntime("squeek.appleskin:appleskin-neoforge:${rootProject.appleskin_neoforge_version}")
 }
 
 processResources {

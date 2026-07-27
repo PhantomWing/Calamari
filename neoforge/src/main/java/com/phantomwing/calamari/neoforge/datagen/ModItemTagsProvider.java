@@ -5,13 +5,15 @@ import com.phantomwing.calamari.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
+// 1.21.6: vanilla net.minecraft.data.tags.ItemTagsProvider was removed; NeoForge's
+// replacement drops the block-tag TagLookup ctor param (block->item tag copying is
+// separate, and this provider only adds item tags directly).
+import net.neoforged.neoforge.common.data.ItemTagsProvider;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,9 +27,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     private static final TagKey<Item> C_FOODS_SEAFOOD =
             TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/seafood"));
 
-    public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider,
-                               CompletableFuture<TagLookup<Block>> blockTags) {
-        super(output, lookupProvider, blockTags, Calamari.MOD_ID);
+    public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, lookupProvider, Calamari.MOD_ID);
     }
 
     @Override
