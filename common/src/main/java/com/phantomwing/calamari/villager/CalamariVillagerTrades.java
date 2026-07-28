@@ -24,12 +24,18 @@ public final class CalamariVillagerTrades {
     private CalamariVillagerTrades() {
     }
 
-    /** Fisherman, level 1: buy 1 Emerald + 6 Calamari, sell 6 Cooked Calamari. */
+    /**
+     * Fisherman, level 1: buy 6 Raw Calamari + 1 Emerald, sell 6 Cooked Calamari.
+     *
+     * <p>Cost order matches vanilla's cooked-cod trade: the fish is the primary cost
+     * (and so the one the reputation discount scales) and the emerald the additional
+     * one, so the trade reads the same way round as every other cook-my-fish trade.</p>
+     */
     public static VillagerTrades.ItemListing fishermanCookedCalamari() {
         // 1.21.11: ItemListing#getOffer takes the ServerLevel as its first argument.
         return (level, trader, random) -> new MerchantOffer(
-                new ItemCost(Items.EMERALD, 1),
-                Optional.of(new ItemCost(ModItems.CALAMARI.get(), 6)),
+                new ItemCost(ModItems.CALAMARI.get(), 6),
+                Optional.of(new ItemCost(Items.EMERALD, 1)),
                 new ItemStack(ModItems.COOKED_CALAMARI.get(), 6),
                 16, 1, PRICE_MULTIPLIER
         );
