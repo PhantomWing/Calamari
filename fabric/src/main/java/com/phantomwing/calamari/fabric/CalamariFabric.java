@@ -40,7 +40,9 @@ public final class CalamariFabric implements ModInitializer {
                 lootRegistry.entrySet().forEach(e -> {
                     LootTable table = e.getValue();
                     if (table instanceof CalamariLootTableId holder) {
-                        holder.calamari$setLootTableId(e.getKey().location());
+                        // 1.21.11: ResourceKey#location was renamed to identifier(),
+                        // alongside ResourceLocation -> Identifier.
+                        holder.calamari$setLootTableId(e.getKey().identifier());
                     }
                 }));
     }

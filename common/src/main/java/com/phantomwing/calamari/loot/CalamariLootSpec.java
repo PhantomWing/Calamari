@@ -1,7 +1,7 @@
 package com.phantomwing.calamari.loot;
 
 import com.phantomwing.calamari.item.ModItems;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -31,12 +31,12 @@ public final class CalamariLootSpec {
      * @param maxCount        max replacement count.
      * @param removedItems    items eligible to be replaced.
      */
-    public record Entry(String id, ResourceLocation targetLootTable, float chance,
+    public record Entry(String id, Identifier targetLootTable, float chance,
                         Supplier<Item> item, int minCount, int maxCount, List<Supplier<Item>> removedItems) {
     }
 
-    private static ResourceLocation mc(String path) {
-        return ResourceLocation.withDefaultNamespace(path);
+    private static Identifier mc(String path) {
+        return Identifier.withDefaultNamespace(path);
     }
 
     /** The complete ordered list of loot replacements. */

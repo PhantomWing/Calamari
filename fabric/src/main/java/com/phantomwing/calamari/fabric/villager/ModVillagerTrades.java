@@ -4,8 +4,8 @@ import com.phantomwing.calamari.fabric.config.CalamariFabricConfig;
 import com.phantomwing.calamari.villager.CalamariVillagerTrades;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 
 /**
  * Fabric parity for the NeoForge {@code ModVillagerTrades} village-event handler.
@@ -64,9 +64,12 @@ public final class ModVillagerTrades {
             if (rebalanced && sharesRebalancedPool(profession)) {
                 return;
             }
-            factories.add((trader, random) ->
+            // 1.21.11: ItemListing#getOffer takes the ServerLevel first. Named
+            // `serverLevel` because the enclosing method already has an int `level`
+            // (the profession tier) and a lambda parameter may not shadow it.
+            factories.add((serverLevel, trader, random) ->
                     CalamariFabricConfig.get().enable_villager_trades
-                            ? listing.getOffer(trader, random)
+                            ? listing.getOffer(serverLevel, trader, random)
                             : null);
         });
     }

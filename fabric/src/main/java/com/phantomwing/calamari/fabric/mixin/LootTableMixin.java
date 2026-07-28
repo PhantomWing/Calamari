@@ -5,7 +5,7 @@ import com.phantomwing.calamari.loot.CalamariLootAlgorithms;
 import com.phantomwing.calamari.loot.CalamariLootSpec;
 import com.phantomwing.calamari.platform.CommonConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -36,16 +36,16 @@ import java.util.function.Supplier;
 public abstract class LootTableMixin implements CalamariLootTableId {
     @Unique
     @Nullable
-    private ResourceLocation calamari$lootTableId;
+    private Identifier calamari$lootTableId;
 
     @Override
     @Nullable
-    public ResourceLocation calamari$getLootTableId() {
+    public Identifier calamari$getLootTableId() {
         return this.calamari$lootTableId;
     }
 
     @Override
-    public void calamari$setLootTableId(ResourceLocation id) {
+    public void calamari$setLootTableId(Identifier id) {
         this.calamari$lootTableId = id;
     }
 
@@ -54,7 +54,7 @@ public abstract class LootTableMixin implements CalamariLootTableId {
             at = @At("RETURN")
     )
     private void calamari$applyLoot(LootContext context, CallbackInfoReturnable<ObjectArrayList<ItemStack>> cir) {
-        ResourceLocation tableId = this.calamari$lootTableId;
+        Identifier tableId = this.calamari$lootTableId;
         ObjectArrayList<ItemStack> generatedLoot = cir.getReturnValue();
         if (tableId == null || generatedLoot == null || !CommonConfig.generateStructureLoot()) {
             return;

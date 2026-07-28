@@ -1,6 +1,6 @@
 package com.phantomwing.calamari.fabric.loot;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
  */
 public interface CalamariLootTableId {
     @Nullable
-    ResourceLocation calamari$getLootTableId();
+    Identifier calamari$getLootTableId();
 
-    void calamari$setLootTableId(ResourceLocation id);
+    void calamari$setLootTableId(Identifier id);
 }

@@ -8,8 +8,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 /**
@@ -42,7 +42,8 @@ public class CalamariVillagerTradeGameTest {
                 continue;
             }
             for (VillagerTrades.ItemListing listing : pool) {
-                MerchantOffer offer = listing.getOffer(villager, random);
+                // 1.21.11: getOffer takes the ServerLevel first.
+                MerchantOffer offer = listing.getOffer(helper.getLevel(), villager, random);
                 if (offer == null) {
                     continue;
                 }

@@ -7,7 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.context.ContextKeySet;
 import net.minecraft.world.entity.Entity;
@@ -94,7 +94,7 @@ public class CalamariLootGameTest {
         // A THIS_ENTITY is required by the GIFT param set (and allowed by CHEST).
         Entity entity = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
         LootTable table = level.getServer().reloadableRegistries().getLootTable(
-                ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.withDefaultNamespace(tablePath)));
+                ResourceKey.create(Registries.LOOT_TABLE, Identifier.withDefaultNamespace(tablePath)));
         LootParams params = new LootParams.Builder(level)
                 .withParameter(LootContextParams.ORIGIN, helper.absolutePos(BlockPos.ZERO).getCenter())
                 .withParameter(LootContextParams.THIS_ENTITY, entity)

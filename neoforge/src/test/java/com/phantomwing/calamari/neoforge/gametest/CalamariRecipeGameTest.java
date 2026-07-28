@@ -33,7 +33,7 @@ public class CalamariRecipeGameTest {
             Optional<RecipeHolder<?>> holder = recipes.byKey(key);
 
             if (holder.isEmpty()) {
-                helper.fail(Component.literal("Recipe " + key.location() + " is not loaded"));
+                helper.fail(Component.literal("Recipe " + key.identifier() + " is not loaded"));
                 return;
             }
         }

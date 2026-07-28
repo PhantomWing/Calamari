@@ -17,20 +17,20 @@ Squids and glow squids drop calamari, a vanilla-friendly seafood you can cook, t
 [[dependencies.calamari]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.9,)"
+versionRange = "[21.11,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.calamari]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.9,1.21.11)"
+versionRange = "[1.21.11,1.21.12)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.calamari]]
 modId = "architectury"
 type = "required"
-versionRange = "[18.0.8,)"
+versionRange = "[19.0.1,)"
 ordering = "AFTER"
 side = "BOTH"

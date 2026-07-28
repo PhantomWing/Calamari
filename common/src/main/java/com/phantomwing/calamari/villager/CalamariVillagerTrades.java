@@ -1,7 +1,7 @@
 package com.phantomwing.calamari.villager;
 
 import com.phantomwing.calamari.item.ModItems;
-import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.ItemCost;
@@ -26,7 +26,8 @@ public final class CalamariVillagerTrades {
 
     /** Fisherman, level 1: buy 1 Emerald + 6 Calamari, sell 6 Cooked Calamari. */
     public static VillagerTrades.ItemListing fishermanCookedCalamari() {
-        return (trader, random) -> new MerchantOffer(
+        // 1.21.11: ItemListing#getOffer takes the ServerLevel as its first argument.
+        return (level, trader, random) -> new MerchantOffer(
                 new ItemCost(Items.EMERALD, 1),
                 Optional.of(new ItemCost(ModItems.CALAMARI.get(), 6)),
                 new ItemStack(ModItems.COOKED_CALAMARI.get(), 6),
@@ -36,7 +37,7 @@ public final class CalamariVillagerTrades {
 
     /** Fisherman, level 2: buy 15 Calamari, sell 1 Emerald. */
     public static VillagerTrades.ItemListing fishermanCalamariForEmerald() {
-        return (trader, random) -> new MerchantOffer(
+        return (level, trader, random) -> new MerchantOffer(
                 new ItemCost(ModItems.CALAMARI.get(), 15),
                 new ItemStack(Items.EMERALD, 1),
                 16, 10, PRICE_MULTIPLIER

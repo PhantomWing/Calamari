@@ -108,8 +108,6 @@ dependencies {
 
     // ---- Dev-runtime niceties (modLocalRuntime ONLY — never compiled against,
     //      never shipped, never a hard dependency). ----
-    // AppleSkin has no 1.21.10 build, so only JEI is wired up here.
-    modLocalRuntime("mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}")
 }
 
 processResources {
@@ -180,7 +178,7 @@ publishMods {
                 .orElse(providers.environmentVariable("MODRINTH_PROJECT_ID")).orElse("PLACEHOLDER")
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse(providers.gradleProperty("modrinth_token"))
         displayName = "Calamari ${rootProject.mod_version}"
-        minecraftVersions.addAll("1.21.9", rootProject.minecraft_version)
+        minecraftVersions.add(rootProject.minecraft_version)
         requires("architectury-api")
     }
 
@@ -189,7 +187,7 @@ publishMods {
                 .orElse(providers.environmentVariable("CURSEFORGE_PROJECT_ID")).orElse("PLACEHOLDER")
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse(providers.gradleProperty("curseforge_token"))
         displayName = "Calamari ${rootProject.mod_version}"
-        minecraftVersions.addAll("1.21.9", rootProject.minecraft_version)
+        minecraftVersions.add(rootProject.minecraft_version)
         // CurseForge needs explicit side flags (Modrinth uses `environment` above).
         client = true
         server = true

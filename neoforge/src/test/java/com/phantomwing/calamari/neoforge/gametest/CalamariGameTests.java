@@ -54,6 +54,7 @@ public final class CalamariGameTests {
         out.accept("cooking_recipes_are_loaded", CalamariRecipeGameTest::cookingRecipesAreLoaded);
         out.accept("fisherman_has_no_duplicate_calamari_trades",
                 CalamariVillagerTradeGameTest::fishermanHasNoDuplicateCalamariTrades);
+        out.accept("nautilus_eats_calamari", CalamariNautilusFoodGameTest::nautilusEatsCalamari);
     }
 
     /**

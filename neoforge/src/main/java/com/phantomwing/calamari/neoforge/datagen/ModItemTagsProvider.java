@@ -5,7 +5,7 @@ import com.phantomwing.calamari.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -21,11 +21,11 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     // Conventional seafood food tags (the `c:` namespace), as used by Rustic
     // Delight and other food mods.
     private static final TagKey<Item> C_FOODS_RAW_FISH =
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/raw_fish"));
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "foods/raw_fish"));
     private static final TagKey<Item> C_FOODS_COOKED_FISH =
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/cooked_fish"));
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "foods/cooked_fish"));
     private static final TagKey<Item> C_FOODS_SEAFOOD =
-            TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "foods/seafood"));
+            TagKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath("c", "foods/seafood"));
 
     public ModItemTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider, Calamari.MOD_ID);
