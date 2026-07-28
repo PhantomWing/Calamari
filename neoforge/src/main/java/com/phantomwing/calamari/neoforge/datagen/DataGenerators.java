@@ -29,6 +29,8 @@ public class DataGenerators {
         event.addProvider(new ModRecipeProvider.Runner(output, lookupProvider));
         event.addProvider(new ModItemTagsProvider(output, lookupProvider));
         event.addProvider(new ModGlobalLootModifierProvider(output, lookupProvider));
+        // 26.1: villager trades are datapack entries, generated here for both loaders.
+        event.addProvider(new ModVillagerTradeProvider(output, lookupProvider));
 
         // 1.21.4: block + item models come from a single vanilla-style ModelProvider.
         event.addProvider(new ModModelProvider(output));

@@ -5,7 +5,6 @@
   "experience": 0.35,
   "ingredient": "calamari:calamari",
   "result": {
-    "count": 1,
     "id": "calamari:cooked_calamari"
   }
 }

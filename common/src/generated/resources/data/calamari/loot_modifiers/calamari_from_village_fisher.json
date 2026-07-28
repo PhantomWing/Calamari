@@ -13,6 +13,7 @@
   "item": "calamari:calamari",
   "max_count": 3,
   "min_count": 1,
+  "priority": 0,
   "removed_item": [
     "minecraft:cod"
   ]

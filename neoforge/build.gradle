@@ -1,5 +1,7 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    // Maintained Shadow fork (Gradle-9 compatible). With loom-no-remap (26.1) there is no
+    // remapJar — shadowJar becomes the PRIMARY mod artifact (bundles :common into the jar).
+    id 'com.gradleup.shadow' version '9.4.2'
 }
 
 architectury {
@@ -100,10 +102,12 @@ sourceSets {
 
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neo_version}"
+    // 26.1/loom-no-remap: plain configs (no `mod` prefix — nothing is remapped).
     // Architectury API (NeoForge).
-    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
+    api "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    // `namedElements` no longer exists under loom-no-remap — reference :common directly.
+    common(project(path: ':common')) { transitive false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionNeoForge')) { transitive false }
 
     // ---- Dev-runtime niceties (modLocalRuntime ONLY — never compiled against,
@@ -118,18 +122,25 @@ processResources {
     }
 }
 
+// 26.1/loom-no-remap: no remapJar. The default `jar` is loom-processed; we mark it `raw` and
+// build shadowJar on top of its output so :common is merged in. shadowJar = primary mod jar.
+jar {
+    archiveClassifier = 'raw'
+}
+
 shadowJar {
+    dependsOn jar
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+
     exclude 'fabric.mod.json'
     exclude 'architectury.common.json'
 
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier = 'dev-shadow'
+    archiveClassifier = null
 }
 
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
+assemble.dependsOn shadowJar
 
 sourcesJar {
     def commonSources = project(':common').sourcesJar
@@ -137,9 +148,17 @@ sourcesJar {
     from commonSources.archiveFile.map { zipTree(it) }
 }
 
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
+// Redirect the java component's outgoing artifacts to shadowJar (the shippable jar), so
+// `from components.java` doesn't publish the classifier='raw' jar. Scaffolding (no maven
+// repositories configured) but must resolve at configuration time.
+configurations {
+    apiElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
+    }
+    runtimeElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
     }
 }
 
@@ -166,7 +185,7 @@ apply plugin: 'me.modmuss50.mod-publish-plugin'
 
 publishMods {
     type = STABLE
-    file = remapJar.archiveFile
+    file = shadowJar.archiveFile
     version = rootProject.mod_version
     changelog = rootProject.ext.latestChangelog()
     // Real publish by default; pass -PpublishDryRun to stage without uploading.
@@ -178,7 +197,7 @@ publishMods {
                 .orElse(providers.environmentVariable("MODRINTH_PROJECT_ID")).orElse("PLACEHOLDER")
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse(providers.gradleProperty("modrinth_token"))
         displayName = "Calamari ${rootProject.mod_version}"
-        minecraftVersions.add(rootProject.minecraft_version)
+        minecraftVersions.addAll("26.1", "26.1.1", rootProject.minecraft_version)
         requires("architectury-api")
     }
 
@@ -187,7 +206,7 @@ publishMods {
                 .orElse(providers.environmentVariable("CURSEFORGE_PROJECT_ID")).orElse("PLACEHOLDER")
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse(providers.gradleProperty("curseforge_token"))
         displayName = "Calamari ${rootProject.mod_version}"
-        minecraftVersions.add(rootProject.minecraft_version)
+        minecraftVersions.addAll("26.1", "26.1.1", rootProject.minecraft_version)
         // CurseForge needs explicit side flags (Modrinth uses `environment` above).
         client = true
         server = true

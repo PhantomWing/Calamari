@@ -43,8 +43,15 @@ public class ReplaceItemModifier extends LootModifier {
     private final int minCount;
     private final int maxCount;
 
+    /** Code-construction constructor (datagen) — uses the default GLM priority 0. */
     public ReplaceItemModifier(LootItemCondition[] conditions, ItemLike item, List<Item> removedItems, int minCount, int maxCount) {
-        super(conditions);
+        this(conditions, 0, item, removedItems, minCount, maxCount);
+    }
+
+    // 26.1: NeoForge added a `priority` int to LootModifier (codecStart now yields
+    // (conditions[], priority)), so the codec's apply() needs it as the 2nd parameter.
+    public ReplaceItemModifier(LootItemCondition[] conditions, int priority, ItemLike item, List<Item> removedItems, int minCount, int maxCount) {
+        super(conditions, priority);
         this.item = item.asItem();
         this.removedItems = removedItems;
         this.minCount = minCount;

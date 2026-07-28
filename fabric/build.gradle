@@ -1,5 +1,8 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    // johnrengelman's shadow is abandoned + Gradle-9 incompatible; com.gradleup.shadow is the
+    // maintained fork. With loom-no-remap (26.1) there is no remapJar, so shadowJar becomes
+    // the PRIMARY mod artifact (it bundles :common into the jar).
+    id 'com.gradleup.shadow' version '9.4.2'
 }
 
 architectury {
@@ -10,12 +13,10 @@ architectury {
 loom {
     accessWidenerPath = project(':common').loom.accessWidenerPath
 
-    // Loot-replacement mixin (Fabric equivalent of the NeoForge GLM). The refmap
-    // name must match "refmap" in calamari.mixins.json so the mixin annotation
-    // processor remaps the named targets at build time.
-    mixin {
-        defaultRefmapName = 'calamari.refmap.json'
-    }
+    // 26.1: the mixin annotation processor is OFF by default (unobfuscated names need no
+    // refmap remapping). The old `mixin { defaultRefmapName = ... }` block is gone; the
+    // loot-replacement mixin still applies at runtime via calamari.mixins.json (whose
+    // `refmap` entry is dropped).
 }
 
 configurations {
@@ -27,18 +28,20 @@ configurations {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    // 26.1/loom-no-remap: plain configs (no `mod` prefix — nothing is remapped).
+    implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    api "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
     // Architectury API (Fabric).
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    api "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
+    // `namedElements` no longer exists under loom-no-remap — reference :common directly.
+    common(project(path: ':common')) { transitive false }
     shadowCommon(project(path: ':common', configuration: 'transformProductionFabric')) { transitive false }
 
     // Cloth Config — a real (compiled + shipped) Fabric dependency: it backs the
     // Fabric AutoConfig config screen (CalamariFabricConfig). fabric-api excluded
     // to avoid a transitive downgrade.
-    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
+    implementation("me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}") {
         exclude group: "net.fabricmc.fabric-api"
     }
 
@@ -80,18 +83,32 @@ static String convertMavenRangeToFabricRange(String mavenRange) {
     return mavenRange
 }
 
+// 26.1/loom-no-remap: there is no remapJar. The default `jar` is loom-processed (it injects
+// Jar-in-Jar metadata into fabric.mod.json) but is NOT shippable on its own — it lacks
+// :common. We mark it `raw` and build shadowJar ON TOP of its output (NOT from source), so
+// the Loom-modified fabric.mod.json is preserved while :common is merged in. shadowJar then
+// becomes the primary (unclassified) mod jar.
+jar {
+    archiveClassifier = 'raw'
+}
+
 shadowJar {
+    dependsOn jar
+    // Build from the Loom-processed jar output, not the raw source set — otherwise shadow
+    // would overwrite Loom's fabric.mod.json (with its JiJ entries) with the unprocessed one.
+    mainSpec.sourcePaths.clear()
+    from(zipTree(jar.archiveFile))
+
     exclude 'architectury.common.json'
 
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier = 'dev-shadow'
+    archiveClassifier = null
 }
 
-remapJar {
-    injectAccessWidener = true
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-}
+// The Fabric access widener (calamari.accesswidener, `official` namespace) ships in the jar
+// (merged from :common) and is declared in fabric.mod.json — Fabric Loader applies it at
+// runtime. No build-time injection step exists anymore (remapJar's injectAccessWidener is gone).
+assemble.dependsOn shadowJar
 
 sourcesJar {
     def commonSources = project(':common').sourcesJar
@@ -99,9 +116,18 @@ sourcesJar {
     from commonSources.archiveFile.map { zipTree(it) }
 }
 
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
+// 26.1/loom-no-remap + Shadow: shadowJar (not jar) is the shippable artifact, so redirect the
+// java component's outgoing artifacts to it. Otherwise `from components.java` would publish
+// the classifier='raw' jar (which lacks :common). Maven publishing is scaffolding here (no
+// repositories are configured) but components.java must still resolve at configuration time.
+configurations {
+    apiElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
+    }
+    runtimeElements {
+        outgoing.artifacts.clear()
+        outgoing.artifact(shadowJar)
     }
 }
 
@@ -128,7 +154,7 @@ apply plugin: 'me.modmuss50.mod-publish-plugin'
 
 publishMods {
     type = STABLE
-    file = remapJar.archiveFile
+    file = shadowJar.archiveFile
     version = rootProject.mod_version
     changelog = rootProject.ext.latestChangelog()
     // Real publish by default; pass -PpublishDryRun to stage without uploading.
@@ -140,7 +166,7 @@ publishMods {
                 .orElse(providers.environmentVariable("MODRINTH_PROJECT_ID")).orElse("PLACEHOLDER")
         accessToken = providers.environmentVariable("MODRINTH_TOKEN").orElse(providers.gradleProperty("modrinth_token"))
         displayName = "Calamari ${rootProject.mod_version}"
-        minecraftVersions.add(rootProject.minecraft_version)
+        minecraftVersions.addAll("26.1", "26.1.1", rootProject.minecraft_version)
         requires("architectury-api")
         requires("fabric-api")
         requires("cloth-config")
@@ -151,7 +177,7 @@ publishMods {
                 .orElse(providers.environmentVariable("CURSEFORGE_PROJECT_ID")).orElse("PLACEHOLDER")
         accessToken = providers.environmentVariable("CURSEFORGE_TOKEN").orElse(providers.gradleProperty("curseforge_token"))
         displayName = "Calamari ${rootProject.mod_version}"
-        minecraftVersions.add(rootProject.minecraft_version)
+        minecraftVersions.addAll("26.1", "26.1.1", rootProject.minecraft_version)
         // CurseForge needs explicit side flags (Modrinth uses `environment` above).
         client = true
         server = true

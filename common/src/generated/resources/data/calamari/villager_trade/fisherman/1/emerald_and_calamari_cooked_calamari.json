@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "calamari:config_boolean",
+      "settingId": "enable_villager_trades"
+    }
+  ],
+  "additional_wants": {
+    "count": 6.0,
+    "id": "calamari:calamari"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "calamari:config_boolean",
+      "settingId": "enable_villager_trades"
+    }
+  ],
+  "gives": {
+    "count": 6,
+    "id": "calamari:cooked_calamari"
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.05,
+  "wants": {
+    "id": "minecraft:emerald"
+  }
+}

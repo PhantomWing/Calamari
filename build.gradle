@@ -1,6 +1,11 @@
 plugins {
     id 'architectury-plugin' version "${architectury_plugin_version}"
-    id 'dev.architectury.loom' version "${architectury_loom_version}" apply false
+    // 26.1 is UNOBFUSCATED — the normal `dev.architectury.loom` still requires a mappings
+    // dependency and a remapJar step, neither of which exists for 26.1. The `-no-remap`
+    // plugin variant is the maintainer-blessed path: it drops the mappings requirement and
+    // the remapJar task; common is bundled into each loader jar via the Shadow plugin
+    // instead (shadowJar becomes the primary artifact). Same loom version.
+    id 'dev.architectury.loom-no-remap' version "${architectury_loom_version}" apply false
     id 'me.modmuss50.mod-publish-plugin' version '2.0.0' apply false
 }
 
@@ -33,7 +38,7 @@ architectury {
 }
 
 subprojects {
-    apply plugin: 'dev.architectury.loom'
+    apply plugin: 'dev.architectury.loom-no-remap'
 
     loom {
         silentMojangMappingsLicense()
@@ -41,11 +46,10 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        // Mojang official mappings, layered with Parchment.
-        mappings loom.layered {
-            officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-${parchment_minecraft_version}:${parchment_mappings_version}@zip")
-        }
+        // 26.1 is UNOBFUSCATED: official Mojang names ARE the runtime names. Mojang no longer
+        // ships a proguard mappings file, so there is NOTHING to map — the mappings block is
+        // dropped entirely (officialMojangMappings() would fail on the missing download).
+        // Parchment is likewise obsolete (no obfuscated param names left to improve).
     }
 }
 
@@ -93,11 +97,11 @@ allprojects {
         }
     }
 
-    java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+    java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
-        options.release = 21
+        options.release = 25
     }
 
     java {

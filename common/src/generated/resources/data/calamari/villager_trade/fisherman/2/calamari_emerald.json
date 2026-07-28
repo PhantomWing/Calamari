@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "calamari:config_boolean",
+      "settingId": "enable_villager_trades"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "calamari:config_boolean",
+      "settingId": "enable_villager_trades"
+    }
+  ],
+  "gives": {
+    "id": "minecraft:emerald"
+  },
+  "max_uses": 16.0,
+  "reputation_discount": 0.05,
+  "wants": {
+    "count": 15.0,
+    "id": "calamari:calamari"
+  },
+  "xp": 10.0
+}

@@ -9,6 +9,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 
@@ -38,7 +39,10 @@ public class ModRecipeProvider extends RecipeProvider {
 
     private void foodCookingRecipes(ItemLike material, ItemLike result, float experience) {
         String resultName = BuiltInRegistries.ITEM.getKey(result.asItem()).getPath();
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(material), RecipeCategory.FOOD, result, experience, 200)
+        // 26.1: smelting() (unlike smoking()/campfireCooking()) also takes the recipe-book
+        // grouping. FOOD keeps these in the same book section as the vanilla cooked fish.
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(material), RecipeCategory.FOOD,
+                        CookingBookCategory.FOOD, result, experience, 200)
                 .unlockedBy(getHasName(material), has(material))
                 .save(this.output);
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(material), RecipeCategory.FOOD, result, experience, 100)

@@ -13,6 +13,7 @@
   "item": "calamari:cooked_calamari",
   "max_count": 4,
   "min_count": 2,
+  "priority": 0,
   "removed_item": [
     "minecraft:cooked_cod"
   ]
