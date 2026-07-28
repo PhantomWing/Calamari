@@ -2,6 +2,6 @@
   "item.calamari.calamari": "Calamar cru",
   "item.calamari.cooked_calamari": "Calamar cuit",
   "text.autoconfig.calamari.title": "Calamari",
-  "text.autoconfig.calamari.option.generate_structure_loot": "Calamar dans le butin gÃ©nÃ©rÃ©",
-  "text.autoconfig.calamari.option.enable_villager_trades": "Activer les Ã©changes des villageois"
+  "text.autoconfig.calamari.option.generate_structure_loot": "Calamar dans le butin généré",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Activer les échanges des villageois"
 }
