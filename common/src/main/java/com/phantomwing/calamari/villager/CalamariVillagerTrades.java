@@ -34,7 +34,7 @@ public final class CalamariVillagerTrades {
      * Registry id of the level-1 trade. The {@code villager_trade} directory is implied,
      * so {@code data/calamari/villager_trade/fisherman/1/x.json} is {@code calamari:fisherman/1/x}.
      */
-    public static final String FISHERMAN_L1_ID = "fisherman/1/emerald_and_calamari_cooked_calamari";
+    public static final String FISHERMAN_L1_ID = "fisherman/1/raw_calamari_and_emerald_cooked_calamari";
     /** Registry id of the level-2 trade. */
     public static final String FISHERMAN_L2_ID = "fisherman/2/calamari_emerald";
 
@@ -42,17 +42,17 @@ public final class CalamariVillagerTrades {
     }
 
     /**
-     * Fisherman, level 1: buy 1 Emerald + 6 Calamari, sell 6 Cooked Calamari.
+     * Fisherman, level 1: buy 6 Raw Calamari + 1 Emerald, sell 6 Cooked Calamari.
      *
-     * <p>The emerald is the primary cost (and so the one the reputation discount scales),
-     * with the raw calamari as the additional cost — carried over unchanged from the
-     * pre-26.1 {@code MerchantOffer}, so the trade prices exactly as it always has. Note
-     * this is the mirror image of vanilla's cooked-cod trade, which puts the fish first.</p>
+     * <p>Cost order matches vanilla's {@code raw_cod_and_emerald_cooked_cod}: the fish is the
+     * primary cost and the emerald the additional one, so the trade reads the same way round
+     * as every other cook-my-fish trade in the game. The primary cost is also the one the
+     * reputation discount scales, which is again what vanilla does.</p>
      */
     public static VillagerTrade fishermanCookedCalamari() {
         return new VillagerTrade(
-                new TradeCost(Items.EMERALD, 1),
-                Optional.of(new TradeCost(ModItems.CALAMARI.get(), 6)),
+                new TradeCost(ModItems.CALAMARI.get(), 6),
+                Optional.of(new TradeCost(Items.EMERALD, 1)),
                 new ItemStackTemplate(ModItems.COOKED_CALAMARI.get(), 6),
                 16, 1, PRICE_MULTIPLIER,
                 Optional.empty(), List.of());

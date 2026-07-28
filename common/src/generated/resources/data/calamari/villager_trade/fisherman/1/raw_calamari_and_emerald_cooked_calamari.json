@@ -6,8 +6,7 @@
     }
   ],
   "additional_wants": {
-    "count": 6.0,
-    "id": "calamari:calamari"
+    "id": "minecraft:emerald"
   },
   "fabric:load_conditions": [
     {
@@ -22,6 +21,7 @@
   "max_uses": 16.0,
   "reputation_discount": 0.05,
   "wants": {
-    "id": "minecraft:emerald"
+    "count": 6.0,
+    "id": "calamari:calamari"
   }
 }
