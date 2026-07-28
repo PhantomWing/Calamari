@@ -1,7 +1,7 @@
 {
-  "item.calamari.calamari": "ã‚¤ã‚«",
-  "item.calamari.cooked_calamari": "ç„¼ãã‚¤ã‚«",
+  "item.calamari.calamari": "生イカ",
+  "item.calamari.cooked_calamari": "焼きイカ",
   "text.autoconfig.calamari.title": "Calamari",
-  "text.autoconfig.calamari.option.generate_structure_loot": "æˆ¦åˆ©å“ã«ã‚¤ã‚«ã‚’ç”Ÿæˆ",
-  "text.autoconfig.calamari.option.enable_villager_trades": "æ‘äººã®å–å¼•"
+  "text.autoconfig.calamari.option.generate_structure_loot": "戦利品にイカを生成",
+  "text.autoconfig.calamari.option.enable_villager_trades": "村人の取引"
 }

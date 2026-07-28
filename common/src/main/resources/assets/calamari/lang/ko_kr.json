@@ -1,7 +1,7 @@
 {
-  "item.calamari.calamari": "ìƒ ì˜¤ì§•ì–´",
-  "item.calamari.cooked_calamari": "ì¡°ë¦¬ëœ ì¹¼ë¼ë§ˆë¦¬",
+  "item.calamari.calamari": "생 오징어",
+  "item.calamari.cooked_calamari": "조리된 칼라마리",
   "text.autoconfig.calamari.title": "Calamari",
-  "text.autoconfig.calamari.option.generate_structure_loot": "ìƒì„±ëœ ì „ë¦¬í’ˆì— ì¹¼ë¼ë§ˆë¦¬",
-  "text.autoconfig.calamari.option.enable_villager_trades": "ì£¼ë¯¼ ê±°ëž˜ í™œì„±í™”"
+  "text.autoconfig.calamari.option.generate_structure_loot": "생성된 전리품에 칼라마리",
+  "text.autoconfig.calamari.option.enable_villager_trades": "주민 거래 활성화"
 }
