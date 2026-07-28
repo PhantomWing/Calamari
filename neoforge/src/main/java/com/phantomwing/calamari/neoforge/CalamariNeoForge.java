@@ -30,7 +30,8 @@ public final class CalamariNeoForge {
 
         // Client-only: register the in-game config screen. Isolated in a separate
         // class so the dedicated server never loads the referenced client types.
-        if (FMLEnvironment.dist.isClient()) {
+        // 1.21.9/NeoForge 21.9: the public `dist` field became the getDist() accessor.
+        if (FMLEnvironment.getDist().isClient()) {
             CalamariNeoForgeClient.init(container);
         }
     }
