@@ -1,7 +1,7 @@
 {
-  "item.calamari.calamari": "Ð¡Ð¸Ñ€Ð¸Ð¹ Ð¼Ð°Ñ†Ð°Ðº ÐºÐ°Ð»ÑŒÐ¼Ð°Ñ€Ð°",
-  "item.calamari.cooked_calamari": "Ð¡Ð¼Ð°Ð¶ÐµÐ½Ð¸Ð¹ Ð¼Ð°Ñ†Ð°Ðº ÐºÐ°Ð»ÑŒÐ¼Ð°Ñ€Ð°",
+  "item.calamari.calamari": "Сирий мацак кальмара",
+  "item.calamari.cooked_calamari": "Смажений мацак кальмара",
   "text.autoconfig.calamari.title": "Calamari",
-  "text.autoconfig.calamari.option.generate_structure_loot": "ÐšÐ°Ð»ÑŒÐ¼Ð°Ñ€ Ñƒ Ð·Ð³ÐµÐ½ÐµÑ€Ð¾Ð²Ð°Ð½Ñ–Ð¹ Ð·Ð´Ð¾Ð±Ð¸Ñ‡Ñ–",
-  "text.autoconfig.calamari.option.enable_villager_trades": "Ð£Ð²Ñ–Ð¼ÐºÐ½ÑƒÑ‚Ð¸ Ñ‚Ð¾Ñ€Ð³Ñ–Ð²Ð»ÑŽ Ð· ÑÐµÐ»ÑÐ½Ð°Ð¼Ð¸"
+  "text.autoconfig.calamari.option.generate_structure_loot": "Кальмар у згенерованій здобичі",
+  "text.autoconfig.calamari.option.enable_villager_trades": "Увімкнути торгівлю з селянами"
 }

@@ -1,7 +1,7 @@
 {
-  "item.calamari.calamari": "ç”Ÿé±¿é±¼",
-  "item.calamari.cooked_calamari": "ç†Ÿé±¿é±¼",
+  "item.calamari.calamari": "生鱿鱼",
+  "item.calamari.cooked_calamari": "熟鱿鱼",
   "text.autoconfig.calamari.title": "Calamari",
-  "text.autoconfig.calamari.option.generate_structure_loot": "æˆ˜åˆ©å“ä¸­ç”Ÿæˆé±¿é±¼",
-  "text.autoconfig.calamari.option.enable_villager_trades": "å¯ç”¨æ‘æ°‘äº¤æ˜“"
+  "text.autoconfig.calamari.option.generate_structure_loot": "战利品中生成鱿鱼",
+  "text.autoconfig.calamari.option.enable_villager_trades": "启用村民交易"
 }
