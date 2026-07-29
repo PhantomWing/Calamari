@@ -67,6 +67,12 @@ processResources {
     filesMatching('fabric.mod.json') {
         expand fmjProps
     }
+
+    // Dev-only: Loom declares the access widener in fabric.mod.json, but Fabric Loader reads
+    // it from the MOD'S resource root — in dev that is the Fabric source set, not common's,
+    // so the loader dies with "Missing classTweaker file calamari.accesswidener". Copying it
+    // in fixes the dev runtime; the shipped jar was never affected (shadowJar merges common).
+    from(project(':common').file('src/main/resources/calamari.accesswidener'))
 }
 
 /**
