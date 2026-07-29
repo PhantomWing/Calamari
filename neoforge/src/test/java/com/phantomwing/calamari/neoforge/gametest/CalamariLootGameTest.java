@@ -12,12 +12,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.context.ContextKeySet;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Game tests for the calamari loot integration — both the GLM replacements
@@ -52,7 +54,7 @@ public class CalamariLootGameTest {
 
     /** Guardian drop: bonus raw calamari pool (LootEvent add). */
     public static void guardianDropsCalamari(GameTestHelper helper) {
-        assertEntityTableYields(helper, EntityType.GUARDIAN, ModItems.CALAMARI.get());
+        assertEntityTableYields(helper, EntityTypes.GUARDIAN, ModItems.CALAMARI.get());
     }
 
     /** Rolls an entity's death loot table (ENTITY param set) and asserts {@code expected} appears. */
@@ -63,7 +65,7 @@ public class CalamariLootGameTest {
         LootTable table = level.getServer().reloadableRegistries().getLootTable(type.getDefaultLootTable().orElseThrow());
         LootParams params = new LootParams.Builder(level)
                 .withParameter(LootContextParams.THIS_ENTITY, entity)
-                .withParameter(LootContextParams.ORIGIN, helper.absolutePos(BlockPos.ZERO).getCenter())
+                .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(helper.absolutePos(BlockPos.ZERO)))
                 .withParameter(LootContextParams.DAMAGE_SOURCE, level.damageSources().generic())
                 .create(LootContextParamSets.ENTITY);
 
@@ -92,11 +94,11 @@ public class CalamariLootGameTest {
     private static void assertTableYields(GameTestHelper helper, String tablePath, ContextKeySet paramSet, Item expected) {
         ServerLevel level = helper.getLevel();
         // A THIS_ENTITY is required by the GIFT param set (and allowed by CHEST).
-        Entity entity = helper.spawn(EntityType.VILLAGER, BlockPos.ZERO);
+        Entity entity = helper.spawn(EntityTypes.VILLAGER, BlockPos.ZERO);
         LootTable table = level.getServer().reloadableRegistries().getLootTable(
                 ResourceKey.create(Registries.LOOT_TABLE, Identifier.withDefaultNamespace(tablePath)));
         LootParams params = new LootParams.Builder(level)
-                .withParameter(LootContextParams.ORIGIN, helper.absolutePos(BlockPos.ZERO).getCenter())
+                .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(helper.absolutePos(BlockPos.ZERO)))
                 .withParameter(LootContextParams.THIS_ENTITY, entity)
                 .create(paramSet);
 

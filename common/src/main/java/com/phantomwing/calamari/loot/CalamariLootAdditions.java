@@ -3,7 +3,7 @@ package com.phantomwing.calamari.loot;
 import com.phantomwing.calamari.item.ModItems;
 import com.phantomwing.calamari.platform.CommonConfig;
 import dev.architectury.event.events.common.LootEvent;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -30,11 +30,11 @@ public final class CalamariLootAdditions {
             }
 
             // 1.21.2+: EntityType#getDefaultLootTable returns Optional<ResourceKey<LootTable>>.
-            if (key.equals(EntityType.GUARDIAN.getDefaultLootTable().orElse(null))) {
+            if (key.equals(EntityTypes.GUARDIAN.getDefaultLootTable().orElse(null))) {
                 addCalamariPool(context, 1, 1, 0.25f);
-            } else if (key.equals(EntityType.ELDER_GUARDIAN.getDefaultLootTable().orElse(null))) {
+            } else if (key.equals(EntityTypes.ELDER_GUARDIAN.getDefaultLootTable().orElse(null))) {
                 addCalamariPool(context, 1, 2, 1.0f);
-            } else if (key.equals(EntityType.DOLPHIN.getDefaultLootTable().orElse(null))) {
+            } else if (key.equals(EntityTypes.DOLPHIN.getDefaultLootTable().orElse(null))) {
                 // Dolphins actually do hunt cephalopods, so a small calamari drop fits
                 // alongside the vanilla cod drop.
                 addCalamariPool(context, 1, 1, 0.25f);

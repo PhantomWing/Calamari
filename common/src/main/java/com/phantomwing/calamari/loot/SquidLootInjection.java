@@ -2,7 +2,7 @@ package com.phantomwing.calamari.loot;
 
 import com.phantomwing.calamari.item.ModItems;
 import dev.architectury.event.events.common.LootEvent;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
@@ -29,8 +29,8 @@ public final class SquidLootInjection {
             }
 
             // 1.21.2+: EntityType#getDefaultLootTable returns Optional<ResourceKey<LootTable>>.
-            if (key.equals(EntityType.SQUID.getDefaultLootTable().orElse(null))
-                    || key.equals(EntityType.GLOW_SQUID.getDefaultLootTable().orElse(null))) {
+            if (key.equals(EntityTypes.SQUID.getDefaultLootTable().orElse(null))
+                    || key.equals(EntityTypes.GLOW_SQUID.getDefaultLootTable().orElse(null))) {
                 LootPool.Builder pool = LootPool.lootPool()
                         .setRolls(ConstantValue.exactly(1))
                         .add(LootItem.lootTableItem(ModItems.CALAMARI.get()))

@@ -6,6 +6,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -34,26 +35,42 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         // Conventional `c:foods` so other mods recognise the calamari items as food.
-        tag(Tags.Items.FOODS)
-                .add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
+        tag(Tags.Items.FOODS).add(raw(), cooked());
 
         // Raw calamari counts as cat/ocelot food, like raw cod and salmon do.
-        tag(ItemTags.CAT_FOOD).add(ModItems.CALAMARI.get());
-        tag(ItemTags.OCELOT_FOOD).add(ModItems.CALAMARI.get());
+        tag(ItemTags.CAT_FOOD).add(raw());
+        tag(ItemTags.OCELOT_FOOD).add(raw());
 
         // Wolves accept raw and cooked calamari as food (the vanilla wolf_food tag
         // contains both raw and cooked variants of fish).
-        tag(ItemTags.WOLF_FOOD).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
+        tag(ItemTags.WOLF_FOOD).add(raw(), cooked());
 
         // Dolphins treat fish as feed: feeding an item in minecraft:fishes triggers
         // the lead-to-treasure behaviour (Dolphin#mobInteract checks ItemTags.FISHES).
         // Squid is a dolphin's natural prey, so calamari fits. Vanilla keeps cooked
         // cod/salmon in this tag too, so cooked calamari is included for parity.
-        tag(ItemTags.FISHES).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
+        // This tag is also what feeds a tamed nautilus (26.1's nautilus_food).
+        tag(ItemTags.FISHES).add(raw(), cooked());
 
         // Conventional seafood food tags for cross-mod integration.
-        tag(C_FOODS_RAW_FISH).add(ModItems.CALAMARI.get());
-        tag(C_FOODS_COOKED_FISH).add(ModItems.COOKED_CALAMARI.get());
-        tag(C_FOODS_SEAFOOD).add(ModItems.CALAMARI.get(), ModItems.COOKED_CALAMARI.get());
+        tag(C_FOODS_RAW_FISH).add(raw());
+        tag(C_FOODS_COOKED_FISH).add(cooked());
+        tag(C_FOODS_SEAFOOD).add(raw(), cooked());
+    }
+
+    // 26.2: tag appenders take a ResourceKey<Item> rather than the Item itself. These have to
+    // stay methods rather than constants — ModItems is a deferred register, so the items only
+    // resolve once datagen runs.
+
+    private static ResourceKey<Item> raw() {
+        return key(ModItems.CALAMARI.get());
+    }
+
+    private static ResourceKey<Item> cooked() {
+        return key(ModItems.COOKED_CALAMARI.get());
+    }
+
+    private static ResourceKey<Item> key(Item item) {
+        return item.builtInRegistryHolder().key();
     }
 }

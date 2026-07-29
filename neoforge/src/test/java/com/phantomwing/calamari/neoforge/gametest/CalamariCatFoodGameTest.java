@@ -4,7 +4,7 @@ import com.phantomwing.calamari.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.animal.feline.Cat;
 import net.minecraft.world.item.ItemStack;
 
@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 public class CalamariCatFoodGameTest {
 
     public static void catTreatsCalamariAsFood(GameTestHelper helper) {
-        Cat cat = helper.spawn(EntityType.CAT, BlockPos.ZERO);
+        Cat cat = helper.spawn(EntityTypes.CAT, BlockPos.ZERO);
         if (cat.isFood(new ItemStack(ModItems.CALAMARI.get()))) {
             helper.succeed();
         } else {
