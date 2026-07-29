@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.MerchantOffer;
 
 /**
@@ -34,8 +35,12 @@ public class CalamariVillagerTradeGameTest {
 
         // Scan EVERY level, not just the one each trade is meant to live in — a stray
         // copy in another level's pool would let a villager roll the trade a second time.
-        int sellsCookedCalamari = 0;
-        int buysCalamari = 0;
+        // The two trades are told apart by their RESULT. Counting "cost A is raw calamari"
+        // would match BOTH of them, because the L1 trade's primary cost is raw calamari too
+        // (its costs are ordered like vanilla's cooked-cod trade).
+        int sellsCookedCalamari = 0;    // L1: 6 raw calamari + 1 emerald -> 6 cooked calamari
+        int buysCalamariForEmerald = 0; // L2: 15 raw calamari -> 1 emerald
+        boolean l1CostOrderCorrect = false;
         for (int level = 1; level <= 5; level++) {
             VillagerTrades.ItemListing[] pool = byLevel.get(level);
             if (pool == null) {
@@ -48,15 +53,26 @@ public class CalamariVillagerTradeGameTest {
                 }
                 if (offer.getResult().is(ModItems.COOKED_CALAMARI.get())) {
                     sellsCookedCalamari++;
+                    // Raw calamari must be the PRIMARY cost and the emerald the secondary one,
+                    // matching vanilla's raw_cod_and_emerald_cooked_cod.
+                    l1CostOrderCorrect = offer.getBaseCostA().is(ModItems.CALAMARI.get())
+                            && offer.getCostB().is(Items.EMERALD);
                 }
-                if (offer.getBaseCostA().is(ModItems.CALAMARI.get())) {
-                    buysCalamari++;
+                if (offer.getResult().is(Items.EMERALD)
+                        && offer.getBaseCostA().is(ModItems.CALAMARI.get())) {
+                    buysCalamariForEmerald++;
                 }
             }
         }
 
         if (!assertExactlyOne(helper, sellsCookedCalamari, "listings selling cooked calamari")) return;
-        if (!assertExactlyOne(helper, buysCalamari, "listings buying raw calamari")) return;
+        if (!assertExactlyOne(helper, buysCalamariForEmerald, "listings buying raw calamari for an emerald")) return;
+
+        if (!l1CostOrderCorrect) {
+            helper.fail(Component.literal(
+                    "Fisherman's cooked calamari trade should cost raw calamari first, then an emerald"));
+            return;
+        }
 
         helper.succeed();
     }
