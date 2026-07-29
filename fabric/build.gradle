@@ -10,14 +10,10 @@ architectury {
     fabric()
 }
 
-loom {
-    accessWidenerPath = project(':common').loom.accessWidenerPath
-
-    // 26.1: the mixin annotation processor is OFF by default (unobfuscated names need no
-    // refmap remapping). The old `mixin { defaultRefmapName = ... }` block is gone; the
-    // loot-replacement mixin still applies at runtime via calamari.mixins.json (whose
-    // `refmap` entry is dropped).
-}
+// 26.1: the mixin annotation processor is OFF by default (unobfuscated names need no
+// refmap remapping). The old `mixin { defaultRefmapName = ... }` block is gone; the
+// loot-replacement mixin still applies at runtime via calamari.mixins.json (whose
+// `refmap` entry is dropped).
 
 configurations {
     common
@@ -67,12 +63,6 @@ processResources {
     filesMatching('fabric.mod.json') {
         expand fmjProps
     }
-
-    // Dev-only: Loom declares the access widener in fabric.mod.json, but Fabric Loader reads
-    // it from the MOD'S resource root — in dev that is the Fabric source set, not common's,
-    // so the loader dies with "Missing classTweaker file calamari.accesswidener". Copying it
-    // in fixes the dev runtime; the shipped jar was never affected (shadowJar merges common).
-    from(project(':common').file('src/main/resources/calamari.accesswidener'))
 }
 
 /**
@@ -111,9 +101,7 @@ shadowJar {
     archiveClassifier = null
 }
 
-// The Fabric access widener (calamari.accesswidener, `official` namespace) ships in the jar
-// (merged from :common) and is declared in fabric.mod.json — Fabric Loader applies it at
-// runtime. No build-time injection step exists anymore (remapJar's injectAccessWidener is gone).
+// shadowJar is the shippable jar, so it has to be built as part of `assemble`.
 assemble.dependsOn shadowJar
 
 sourcesJar {

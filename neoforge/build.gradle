@@ -17,8 +17,6 @@ def datagenOutput = rootProject.file('common/src/generated/resources/').absolute
 def datagenExisting = rootProject.file('common/src/main/resources/').absolutePath
 
 loom {
-    accessWidenerPath = project(':common').loom.accessWidenerPath
-
     // Include the test-only source set in the dev mod definition so NeoForge's
     // @GameTestHolder scan discovers the game tests. This only affects the dev
     // runtime mod — the production jar is still built from `main` only, so the

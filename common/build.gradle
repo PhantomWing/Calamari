@@ -2,10 +2,6 @@ architectury {
     common(rootProject.enabled_platforms.split(','))
 }
 
-loom {
-    accessWidenerPath = file('src/main/resources/calamari.accesswidener')
-}
-
 // Datagen output is committed and shared across loaders. The NeoForge data
 // generator (see :neoforge) writes to src/generated/resources; wire that as an
 // additional resource source directory so the generated assets/data ship in the
