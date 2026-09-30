@@ -9,8 +9,7 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 /**
  * Cross-platform calamari loot <em>additions</em> (as opposed to the replacements
@@ -24,7 +23,8 @@ public final class CalamariLootAdditions {
     }
 
     public static void register() {
-        LootEvent.MODIFY_LOOT_TABLE.register((key, context, builtin) -> {
+        // Architectury 22 (26.3) hands the registries first.
+        LootEvent.MODIFY_LOOT_TABLE.register((registries, key, context, builtin) -> {
             if (!builtin || !CommonConfig.generateStructureLoot()) {
                 return;
             }
@@ -45,10 +45,11 @@ public final class CalamariLootAdditions {
     }
 
     private static void addCalamariPool(LootEvent.LootTableModificationContext context, int min, int max, float chance) {
+        // 26.3: loot numbers are Holder<ContextIntProvider>, built by ContextIntProviders.
         context.addPool(LootPool.lootPool()
-                .setRolls(ConstantValue.exactly(1))
+                .setRolls(ContextIntProviders.exactly(1))
                 .when(LootItemRandomChanceCondition.randomChance(chance))
                 .add(LootItem.lootTableItem(ModItems.CALAMARI.get()))
-                .apply(SetItemCountFunction.setCount(UniformGenerator.between(min, max))));
+                .apply(SetItemCountFunction.setCount(ContextIntProviders.between(min, max))));
     }
 }

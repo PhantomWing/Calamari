@@ -6,8 +6,7 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 
 /**
  * Cross-platform "squids drop calamari" loot injection, ported from Rustic
@@ -23,7 +22,8 @@ public final class SquidLootInjection {
     }
 
     public static void register() {
-        LootEvent.MODIFY_LOOT_TABLE.register((key, context, builtin) -> {
+        // Architectury 22 (26.3) hands the registries first.
+        LootEvent.MODIFY_LOOT_TABLE.register((registries, key, context, builtin) -> {
             if (!builtin) {
                 return;
             }
@@ -31,10 +31,11 @@ public final class SquidLootInjection {
             // 1.21.2+: EntityType#getDefaultLootTable returns Optional<ResourceKey<LootTable>>.
             if (key.equals(EntityTypes.SQUID.getDefaultLootTable().orElse(null))
                     || key.equals(EntityTypes.GLOW_SQUID.getDefaultLootTable().orElse(null))) {
+                // 26.3: loot numbers are Holder<ContextIntProvider>, built by ContextIntProviders.
                 LootPool.Builder pool = LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1))
+                        .setRolls(ContextIntProviders.exactly(1))
                         .add(LootItem.lootTableItem(ModItems.CALAMARI.get()))
-                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0f, 2.0f)));
+                        .apply(SetItemCountFunction.setCount(ContextIntProviders.between(1, 2)));
                 context.addPool(pool);
             }
         });

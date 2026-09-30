@@ -98,6 +98,12 @@ sourceSets {
     }
 }
 
+// The test source set holds game tests, which runGameTest runs; the JUnit `test` task finds none
+// there, and Gradle 9 fails a build whose test task discovers nothing.
+tasks.named('test') {
+    failOnNoDiscoveredTests = false
+}
+
 dependencies {
     neoForge "net.neoforged:neoforge:${rootProject.neo_version}"
     // 26.1/loom-no-remap: plain configs (no `mod` prefix — nothing is remapped).
@@ -113,10 +119,18 @@ dependencies {
 }
 
 processResources {
-    inputs.property 'version', project.version
+    // The dependency ranges come from gradle.properties, as fabric.mod.json's do, so a port that
+    // bumps the versions can't leave the manifest asking for the old ones.
+    def modsTomlProps = [
+            version                : project.version,
+            neo_version_range      : rootProject.neo_version_range,
+            minecraft_version_range: rootProject.minecraft_version_range,
+            architectury_version   : rootProject.architectury_version,
+    ]
+    inputs.properties modsTomlProps
 
     filesMatching('META-INF/neoforge.mods.toml') {
-        expand 'version': project.version
+        expand modsTomlProps
     }
 }
 

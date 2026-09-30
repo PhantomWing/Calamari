@@ -6,9 +6,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.trading.TradeCost;
 import net.minecraft.world.item.trading.VillagerTrade;
 
-import java.util.List;
-import java.util.Optional;
-
 /**
  * Loader-agnostic source of truth for the calamari villager trades.
  *
@@ -50,20 +47,21 @@ public final class CalamariVillagerTrades {
      * reputation discount scales, which is again what vanilla does.</p>
      */
     public static VillagerTrade fishermanCookedCalamari() {
-        return new VillagerTrade(
+        // 26.3 hid VillagerTrade's constructor behind a builder (its numeric fields are
+        // ContextIntProvider/ContextFloatProvider holders now); the two-cost overload takes the
+        // additional cost second, as the constructor did.
+        return VillagerTrade.builder(
                 new TradeCost(ModItems.CALAMARI.get(), 6),
-                Optional.of(new TradeCost(Items.EMERALD, 1)),
+                new TradeCost(Items.EMERALD, 1),
                 new ItemStackTemplate(ModItems.COOKED_CALAMARI.get(), 6),
-                16, 1, PRICE_MULTIPLIER,
-                Optional.empty(), List.of());
+                16, 1, PRICE_MULTIPLIER).build();
     }
 
     /** Fisherman, level 2: buy 15 Calamari, sell 1 Emerald. */
     public static VillagerTrade fishermanCalamariForEmerald() {
-        return new VillagerTrade(
+        return VillagerTrade.builder(
                 new TradeCost(ModItems.CALAMARI.get(), 15),
                 new ItemStackTemplate(Items.EMERALD),
-                16, 10, PRICE_MULTIPLIER,
-                Optional.empty(), List.of());
+                16, 10, PRICE_MULTIPLIER).build();
     }
 }

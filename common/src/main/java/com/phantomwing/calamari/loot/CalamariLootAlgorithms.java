@@ -1,10 +1,10 @@
 package com.phantomwing.calamari.loot;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 import java.util.List;
 
@@ -30,7 +30,9 @@ public final class CalamariLootAlgorithms {
         for (int i = 0; i < generatedLoot.size(); i++) {
             ItemStack stack = generatedLoot.get(i);
             if (removedItems.stream().anyMatch(stack::is)) {
-                int count = Math.max(1, UniformGenerator.between(minCount, maxCount).getInt(context));
+                // 26.3 moved UniformGenerator under providers.number.ints and made it Holder-based; a
+                // uniform roll over the loot context's own random is the same thing without the wrapper.
+                int count = Math.max(1, Mth.nextInt(context.getRandom(), minCount, maxCount));
                 generatedLoot.set(i, new ItemStack(item, count));
             }
         }

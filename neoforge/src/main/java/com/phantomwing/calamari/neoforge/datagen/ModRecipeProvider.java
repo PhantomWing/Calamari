@@ -2,33 +2,50 @@ package com.phantomwing.calamari.neoforge.datagen;
 
 import com.phantomwing.calamari.Calamari;
 import com.phantomwing.calamari.item.ModItems;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.advancements.Advancement;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.PackOutput;
+import net.minecraft.core.registries.MultiRegistryBootstrap;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.Set;
 
 /**
  * 1.21.2 reworked {@link RecipeProvider}: the builder helpers ({@code has},
- * {@code getHasName}, ...) are now instance methods, {@link #buildRecipes()} takes
- * no arguments (the {@link RecipeOutput} is a field), and a nested
- * {@link RecipeProvider.Runner} is what the data generator actually registers.
+ * {@code getHasName}, ...) are now instance methods and {@link #buildRecipes()} takes
+ * no arguments. 26.3 made recipes a reloadable datapack registry: the provider is built
+ * over bootstrap contexts rather than run as a DataProvider, and owns its {@code output}.
  */
 public class ModRecipeProvider extends RecipeProvider {
     private static final float FOOD_COOKING_EXP = 0.35f;
 
-    private final RecipeOutput output;
+    protected ModRecipeProvider(BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
+        super(recipes, advancements);
+    }
 
-    protected ModRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
-        super(registries, output);
-        this.output = output;
+    /** Recipes also emit their unlock advancements, hence a bootstrap over both registries. */
+    public static MultiRegistryBootstrap create() {
+        return new MultiRegistryBootstrap() {
+            @Override
+            public Set<ResourceKey<? extends Registry<?>>> requestedRegistries() {
+                return Set.of(Registries.RECIPE, Registries.ADVANCEMENT);
+            }
+
+            @Override
+            public void run(BootstrapGetter getter) {
+                new ModRecipeProvider(getter.get(Registries.RECIPE), getter.get(Registries.ADVANCEMENT))
+                        .buildRecipes();
+            }
+        };
     }
 
     @Override
@@ -51,21 +68,5 @@ public class ModRecipeProvider extends RecipeProvider {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(material), RecipeCategory.FOOD, result, experience, 600)
                 .unlockedBy(getHasName(material), has(material))
                 .save(this.output, Calamari.MOD_ID + ":" + resultName + "_from_campfire_cooking");
-    }
-
-    public static final class Runner extends RecipeProvider.Runner {
-        public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-            super(output, registries);
-        }
-
-        @Override
-        protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, RecipeOutput output) {
-            return new ModRecipeProvider(registries, output);
-        }
-
-        @Override
-        public String getName() {
-            return "Calamari Recipes";
-        }
     }
 }

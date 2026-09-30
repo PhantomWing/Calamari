@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.phantomwing.calamari.loot.CalamariLootAlgorithms;
 import com.phantomwing.calamari.platform.CommonConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -18,6 +19,7 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
@@ -44,14 +46,15 @@ public class ReplaceItemModifier extends LootModifier {
     private final int maxCount;
 
     /** Code-construction constructor (datagen) — uses the default GLM priority 0. */
-    public ReplaceItemModifier(LootItemCondition[] conditions, ItemLike item, List<Item> removedItems, int minCount, int maxCount) {
-        this(conditions, 0, item, removedItems, minCount, maxCount);
+    public ReplaceItemModifier(Optional<Holder<LootItemCondition>> condition, ItemLike item, List<Item> removedItems, int minCount, int maxCount) {
+        this(condition, 0, item, removedItems, minCount, maxCount);
     }
 
     // 26.1: NeoForge added a `priority` int to LootModifier (codecStart now yields
     // (conditions[], priority)), so the codec's apply() needs it as the 2nd parameter.
-    public ReplaceItemModifier(LootItemCondition[] conditions, int priority, ItemLike item, List<Item> removedItems, int minCount, int maxCount) {
-        super(conditions, priority);
+    // 26.3: the condition array became a single optional condition holder.
+    public ReplaceItemModifier(Optional<Holder<LootItemCondition>> condition, int priority, ItemLike item, List<Item> removedItems, int minCount, int maxCount) {
+        super(condition, priority);
         this.item = item.asItem();
         this.removedItems = removedItems;
         this.minCount = minCount;

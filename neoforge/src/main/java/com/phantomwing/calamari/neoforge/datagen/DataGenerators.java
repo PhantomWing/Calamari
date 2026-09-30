@@ -2,12 +2,14 @@ package com.phantomwing.calamari.neoforge.datagen;
 
 import com.phantomwing.calamari.CalamariCommon;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 // GatherDataEvent is a MOD-bus event. 1.21.4 reworked it: there is no more
@@ -24,9 +26,15 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent.Client event) {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
-        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getWorldLookupProvider();
 
-        event.addProvider(new ModRecipeProvider.Runner(output, lookupProvider));
+        // 26.3 moved recipes out of standalone providers and into a reloadable datapack registry.
+        // Recipes also emit their unlock advancements, hence the multi-registry bootstrap. The set
+        // is a namespace filter: every recipe here is under the mod's own namespace.
+        event.createReloadableRegistryObjects(new RegistrySetBuilder()
+                .add(ModRecipeProvider.create()),
+                Set.of(CalamariCommon.MOD_ID));
+
         event.addProvider(new ModItemTagsProvider(output, lookupProvider));
         event.addProvider(new ModGlobalLootModifierProvider(output, lookupProvider));
         // 26.1: villager trades are datapack entries, generated here for both loaders.

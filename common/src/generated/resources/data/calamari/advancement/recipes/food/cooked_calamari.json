@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "calamari:cooked_calamari"
+        "recipes": "calamari:cooked_calamari"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
