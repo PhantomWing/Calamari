@@ -8,7 +8,8 @@ modId = "calamari"
 version = "${version}"
 displayName = "Calamari"
 displayURL = "https://github.com/PhantomWing/Calamari"
-logoFile = "icon.png"
+# 26.2 deprecated logoFile, splitting it into a wide banner and a square icon. icon.png is 128x128.
+iconFile = "icon.png"
 authors = "PhantomWing"
 description = '''
 Squids and glow squids drop calamari, a vanilla-friendly seafood you can cook, trade, and eat.
