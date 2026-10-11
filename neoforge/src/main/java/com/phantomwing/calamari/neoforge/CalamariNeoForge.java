@@ -27,7 +27,8 @@ public final class CalamariNeoForge {
         // Datapack load conditions — the generated villager trades are gated on the config.
         ModConditions.register(modEventBus);
 
-        container.registerConfig(ModConfig.Type.COMMON, Configuration.COMMON_CONFIG);
+        // Named as it was while the type was COMMON, so players keep their settings.
+        container.registerConfig(ModConfig.Type.LOCAL, Configuration.COMMON_CONFIG, "calamari-common.toml");
 
         // Inject Calamari + Cooked Calamari into the vanilla Food & Drinks tab.
         ModCreativeTabs.register(modEventBus);

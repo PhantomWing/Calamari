@@ -31,7 +31,7 @@ public class DataGenerators {
         // 26.3 moved recipes out of standalone providers and into a reloadable datapack registry.
         // Recipes also emit their unlock advancements, hence the multi-registry bootstrap. The set
         // is a namespace filter: every recipe here is under the mod's own namespace.
-        event.createReloadableRegistryObjects(new RegistrySetBuilder()
+        event.getDefaultPackGenerator().createReloadableRegistryObjects(new RegistrySetBuilder()
                 .add(ModRecipeProvider.create()),
                 Set.of(CalamariCommon.MOD_ID));
 
