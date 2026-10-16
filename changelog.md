@@ -1,3 +1,9 @@
+# 1.0.2
+
+### Fixes
+- Fixed the mod not loading on Fabric for Minecraft 1.21.9
+
+
 # 1.0.1
 ### Changes
 - Renamed Calamari to Raw Calamari, for parity with Raw Cod and the other raw foods

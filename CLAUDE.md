@@ -24,6 +24,6 @@ implementation for the `publishMods` setup.
 - Java 21, Mojang mappings with Parchment. `org.gradle.java.home` is pinned in `gradle.properties` to a JDK on this machine; if the daemon fails to start, check that path first.
 - Datagen: `:neoforge:runData`. Output: `common/src/generated/resources`, never hand-edited.
 - Game tests in `neoforge/src/test`, run with `:neoforge:runGameTest`.
-- Published with `publishMods` from `fabric/build.gradle` and `neoforge/build.gradle`, with the `-PpublishDryRun` flag. Uploads are tagged `1.21.9` and `1.21.10` in the build script, the whole rung.
+- Published with `publishMods` from `fabric/build.gradle` and `neoforge/build.gradle`, with the `-PpublishDryRun` flag. Uploads are tagged `1.21.9` and `1.21.10` in the build script, the whole rung. So `fabric.mod.json` asks for Fabric API from `fabric_api_min_version` (0.134.1, 1.21.9's newest), not the `fabric_api_version` it builds against, which has no 1.21.9 build.
 - GitHub Actions: `release.yml`.
 - Hand-authored access widener: `common/src/main/resources/calamari.accesswidener`. A first suspect when a port fails to load.
