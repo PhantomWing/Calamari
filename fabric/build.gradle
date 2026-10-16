@@ -49,13 +49,14 @@ processResources {
     // Properties expanded into fabric.mod.json — keep these in sync with the
     // dependency versions in gradle.properties so the published jar pins to
     // exactly the versions we compiled against (minimums for fabric-api / loader /
-    // architectury / cloth-config, plus the Minecraft version range).
+    // cloth-config, plus the Minecraft version range). architectury's minimum is its own
+    // property: the one we compile against has no build for 26.1 or 26.1.1.
     def fmjProps = [
             version              : project.version,
             fabric_loader_version: rootProject.fabric_loader_version,
             fabric_api_version   : rootProject.fabric_api_version,
             minecraft_version_range: convertMavenRangeToFabricRange(rootProject.minecraft_version_range),
-            architectury_version : rootProject.architectury_version,
+            architectury_min_version: rootProject.architectury_min_version,
             cloth_config_version : rootProject.cloth_config_version,
     ]
     inputs.properties fmjProps
