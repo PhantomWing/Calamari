@@ -24,5 +24,5 @@ implementation for the `publishMods` setup.
 - Java 25, no mappings and no Parchment (Mojang names are the runtime names). `org.gradle.java.home` is pinned in `gradle.properties` to a JDK on this machine; if the daemon fails to start, check that path first.
 - Datagen: `:neoforge:runData`. Output: `common/src/generated/resources`, never hand-edited.
 - Game tests in `neoforge/src/test`, run with `:neoforge:runGameTest`.
-- Published with `publishMods` from `fabric/build.gradle` and `neoforge/build.gradle`, with the `-PpublishDryRun` flag. Uploads are tagged `26.1`, `26.1.1` and `26.1.2` in the build script, the whole rung.
+- Published with `publishMods` from `fabric/build.gradle` and `neoforge/build.gradle`, with the `-PpublishDryRun` flag. The Fabric upload is tagged `26.1`, `26.1.1` and `26.1.2` in the build script, the whole rung; the NeoForge one `26.1.2` alone, since `neo_version_range` needs NeoForge 26.1.2, which the earlier two don't have.
 - GitHub Actions: `release.yml`.
