@@ -1,7 +1,7 @@
 # 1.0.2
 
 ### Fixes
-- Fixed the mod not loading on Fabric for Minecraft 1.21.9
+- Fixed the mod not loading on Minecraft 1.21.9
 
 
 # 1.0.1
